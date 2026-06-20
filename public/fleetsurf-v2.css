@@ -1,0 +1,110 @@
+/* ============ Fleetsurf Brand Deck v2 ============ */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+:root{
+  --navy:#0a1628;
+  --navy-2:#0c1d33;
+  --navy-3:#102744;
+  --panel:#0e2138;
+  --ink:#eaf6f6;
+  --muted:#8aa6bc;
+  --muted-2:#5f7d93;
+  --teal:#19c2c2;
+  --teal-deep:#0f8f8f;
+  --coral:#ff7a59;
+  --gold:#ffd166;
+  --foam:#bdfcfc;
+  --violet:#a78bfa;
+  --line:rgba(120,180,200,.14);
+  --line-2:rgba(120,180,200,.26);
+  --sans:'Space Grotesk',system-ui,sans-serif;
+  --body:'Manrope',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+deck-stage:not(:defined){visibility:hidden}
+deck-stage{background:#05080f}
+section{background:var(--navy);color:var(--ink);font-family:var(--body);overflow:hidden}
+.slide{position:absolute;inset:0;padding:92px 110px;display:flex;flex-direction:column}
+.slide.center{justify-content:center}
+
+/* atoms */
+.grid-bg{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:64px 64px;opacity:.6;pointer-events:none}
+.grid-bg.fade{mask-image:radial-gradient(ellipse 90% 80% at 50% 42%,#000 38%,transparent 100%)}
+.glow{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;opacity:.5}
+.wordmark{font-family:var(--sans);font-weight:700;letter-spacing:-.03em;line-height:.9}
+.kicker{font-family:var(--mono);font-size:20px;letter-spacing:.18em;text-transform:uppercase;color:var(--teal);margin:0 0 30px;display:flex;align-items:center;gap:14px}
+.kicker .idx{color:var(--muted-2)}
+.kicker::before{content:"";width:46px;height:2px;background:var(--teal)}
+h2.title{font-family:var(--sans);font-weight:600;font-size:82px;line-height:1.0;letter-spacing:-.03em;margin:0 0 26px;max-width:18ch;text-wrap:balance}
+h2.title .accent{color:var(--teal)}
+h2.title .coral{color:var(--coral)}
+.lead{font-size:30px;line-height:1.45;color:var(--ink);max-width:30ch;opacity:.9;margin:0;font-weight:400}
+.sub{font-size:23px;line-height:1.55;color:var(--muted);max-width:48ch;margin:0;font-weight:400}
+.pill{display:inline-flex;align-items:center;gap:9px;white-space:nowrap;font-family:var(--mono);font-size:16px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line-2);border-radius:999px;padding:9px 18px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--teal);box-shadow:0 0 14px var(--teal)}
+.mono{font-family:var(--mono)}
+
+.footer{position:absolute;left:110px;right:110px;bottom:50px;display:flex;align-items:center;justify-content:space-between;white-space:nowrap;font-family:var(--mono);font-size:14px;letter-spacing:.08em;color:var(--muted-2);text-transform:uppercase;z-index:6}
+.footer b{color:var(--ink);font-weight:600}
+
+/* ===== mascot accessory motion (always-on, decorative) ===== */
+.fs-rotor{animation:fs-spin .5s linear infinite}
+@keyframes fs-spin{to{transform:rotate(360deg)}}
+.fs-flame{animation:fs-flame .16s steps(2) infinite alternate}
+@keyframes fs-flame{to{transform:scaleY(1.3)}}
+.fs-signal,.fs-wave-flag{transform-origin:left center}
+.fs-signal{animation:fs-sig 1.9s ease-in-out infinite}
+@keyframes fs-sig{0%,100%{opacity:.35}50%{opacity:1}}
+.fs-wave-flag{animation:fs-flag 2.4s ease-in-out infinite}
+@keyframes fs-flag{0%,100%{transform:skewY(0)}50%{transform:skewY(-5deg)}}
+.fs-dash{stroke-dasharray:7 11}
+@keyframes fs-flow{to{stroke-dashoffset:-18}}
+
+/* ===== entrance: transform-only so content is never hidden in print/frozen frames ===== */
+@media (prefers-reduced-motion:no-preference){
+  [data-deck-active] .anim{animation:rise .6s cubic-bezier(.2,.7,.2,1) both}
+  [data-deck-active] .anim.d1{animation-delay:.05s}
+  [data-deck-active] .anim.d2{animation-delay:.13s}
+  [data-deck-active] .anim.d3{animation-delay:.21s}
+  [data-deck-active] .anim.d4{animation-delay:.29s}
+  [data-deck-active] .anim.d5{animation-delay:.37s}
+  [data-deck-active] .anim.d6{animation-delay:.45s}
+  @keyframes rise{from{transform:translateY(24px)}to{transform:translateY(0)}}
+
+  .bob{animation:bob 4.8s ease-in-out infinite}
+  .bob.b2{animation-duration:5.4s;animation-delay:-1.2s}
+  .bob.b3{animation-duration:4.2s;animation-delay:-2.1s}
+  .bob.b4{animation-duration:5.8s;animation-delay:-.6s}
+  .bob.b5{animation-duration:4.5s;animation-delay:-3s}
+  @keyframes bob{0%,100%{transform:translateY(0) rotate(-1.4deg)}50%{transform:translateY(-13px) rotate(1.4deg)}}
+
+  .float{animation:flt 6s ease-in-out infinite}
+  @keyframes flt{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+  .swell{animation:swell 7s ease-in-out infinite}
+  .swell.s2{animation-duration:6s;animation-direction:reverse}
+  @keyframes swell{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+  .drift{animation:drift 30s linear infinite}
+  @keyframes drift{to{transform:translateX(-50%)}}
+  .spin-slow{animation:fs-spin 26s linear infinite;transform-box:fill-box;transform-origin:center}
+}
+
+.waveband{position:absolute;left:0;right:0;bottom:0;width:100%;pointer-events:none;z-index:1}
+
+/* ecosystem chips (slide 4) — each holds a drop-in logo slot */
+.eco-chip{position:absolute;transform:translate(-50%,-50%);display:flex;align-items:center;gap:13px;background:#0c1d33;border:1.5px solid var(--line-2);border-radius:16px;padding:9px 20px 9px 9px;z-index:3}
+.eco-chip .nm{font-family:var(--sans);font-weight:600;font-size:22px;color:var(--ink);white-space:nowrap}
+.eco-chip image-slot{width:54px;height:54px;flex:none;border-radius:12px;overflow:hidden;background:rgba(120,180,200,.06)}
+.eco-chip.custom{border-style:dashed;border-color:var(--muted-2)}
+.eco-chip .ph{width:54px;height:54px;flex:none;border-radius:12px;border:1.5px dashed var(--muted-2);display:grid;place-items:center;color:var(--muted);font-size:30px;font-family:var(--sans);font-weight:600}
+
+/* cards */
+.card{background:linear-gradient(180deg,var(--navy-2),var(--navy));border:1px solid var(--line);border-radius:20px;padding:34px}
+.card h3{font-family:var(--sans);font-weight:600;font-size:27px;margin:0 0 12px;letter-spacing:-.01em}
+.card p{font-size:19px;line-height:1.5;color:var(--muted);margin:0}
+
+/* big statement type */
+.statement{font-family:var(--sans);font-weight:700;font-size:118px;line-height:.94;letter-spacing:-.04em;margin:0}
+
+/* swatch */
+.swatch{height:128px;border-radius:16px;display:flex;align-items:flex-end;padding:16px;font-family:var(--mono);font-size:14px;color:var(--navy);font-weight:600}

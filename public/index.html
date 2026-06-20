@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fleetsurf — the agent-to-agent protocol</title>
+<meta name="description" content="Fleetsurf is the open agent-to-agent protocol for connecting the AI agents and tools you already use.">
+<meta property="og:title" content="Fleetsurf">
+<meta property="og:description" content="Connect the agent you like to every agent you can run.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://fleetsurf.ai/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="fleetsurf-v2.css">
+<link rel="stylesheet" href="web.css">
+<link rel="stylesheet" href="web2.css">
+</head>
+<body>
+
+<!-- ============ CONTINUOUS ATMOSPHERE (one blended sea behind everything) ============ -->
+<div class="atmos" aria-hidden="true">
+  <div class="grain"></div>
+  <div class="pool" data-parallax="160" style="width:1000px;height:1000px;left:50%;top:0%;transform:translateX(-50%);background:#0f8f8f;opacity:.14"></div>
+  <div class="pool" data-parallax="-110" style="width:780px;height:780px;left:-6%;top:34%;background:#103a52;opacity:.5"></div>
+  <div class="pool" data-parallax="130" style="width:860px;height:860px;right:-8%;top:58%;background:#0f8f8f;opacity:.22"></div>
+  <div class="pool" data-parallax="-90" style="width:720px;height:720px;left:40%;top:82%;background:#0b3a4f;opacity:.42"></div>
+</div>
+
+<!-- ============ NAV ============ -->
+<nav class="nav">
+  <a class="brand" href="#top">fleet<span>surf</span></a>
+  <div class="nav-links">
+    <a class="lnk" href="#protocol">protocol</a>
+    <a class="lnk" href="#connect-sec">connect</a>
+    <a class="lnk" href="#orchestrate">orchestrate</a>
+    <a class="lnk" href="#fleet">the fleet</a>
+    <a class="gh" href="https://github.com/fleetsurf" target="_blank" rel="noopener">
+      <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+      GitHub
+    </a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero band" id="top" data-screen-label="Hero">
+  <div class="grid-bg fade"></div>
+  <div class="glow" style="width:860px;height:860px;left:50%;top:34%;transform:translate(-50%,-50%);background:#0f8f8f;opacity:.2"></div>
+  <div class="flock hero-flock" data-count="13" data-op="0.42"></div>
+
+  <p class="eyebrow">the agent-to-agent protocol</p>
+  <h1>fleet<span>surf</span></h1>
+  <p class="tag">Connect the agent you like to every agent you can run.</p>
+  <p class="codeline">any agent <b>&lt;&gt;</b> fleet of any agents</p>
+
+  <div class="cta-row">
+    <a class="gh lg" href="https://github.com/fleetsurf" target="_blank" rel="noopener">
+      <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+      View on GitHub
+    </a>
+    <a class="gh ghost lg" href="#protocol">See how it works</a>
+  </div>
+
+  <div class="hero-birds">
+    <div class="mascot-slot bird bob b3" data-opts='{"size":172,"wave":false,"acc":"heli","body":"#ff7a59","belly":"#ffd9cc","board":"#19c2c2","boardDark":"#0f8f8f","beak":"#ffd166","bodyDark":"#e05a3a"}' style="left:4%;top:34%"></div>
+    <div class="mascot-slot bird bob b2" data-opts='{"size":150,"wave":false,"acc":"goggles"}' style="left:20%;top:58%"></div>
+    <div class="mascot-slot bird bob" data-opts='{"size":230,"wave":false}' style="left:50%;top:8%;transform:translateX(-50%)"></div>
+    <div class="mascot-slot bird bob b4" data-opts='{"size":178,"wave":false,"acc":"flag","flag":"#19c2c2","body":"#ffd166","belly":"#fff3cf","board":"#ff7a59","boardDark":"#e05a3a","beak":"#19c2c2","bodyDark":"#e3b43f"}' style="right:5%;top:33%"></div>
+    <div class="mascot-slot bird bob b5" data-opts='{"size":150,"wave":false,"acc":"jetpack"}' style="right:21%;top:58%"></div>
+  </div>
+
+  <div class="ocean hero-ocean" data-h="320" data-colors="#0a3a4a,#0b5566,#0f8f8f,#19c2c2"></div>
+  <a class="scroll-hint" href="#protocol"><span>scroll</span><span class="ln"></span></a>
+</header>
+
+<!-- ============ MANIFESTO ============ -->
+<section class="band alt" id="protocol" data-screen-label="Manifesto">
+  <div class="grid-bg fade"></div>
+  <div class="glow" style="width:720px;height:720px;right:0;top:30%;transform:translateY(-50%);background:#103a52"></div>
+  <div class="wrap two">
+    <div>
+      <p class="kick reveal">The big idea</p>
+      <h2 class="stmt reveal d1">No agent should<br>surf <span class="accent">alone</span>.</h2>
+      <p class="lead reveal d2">Every AI tool today works in its own silo — its own context, its own memory, its own lane. Fleetsurf is the open layer that lets them ride together.</p>
+    </div>
+    <div class="figure reveal d1">
+      <div class="glow" data-parallax="-70" style="width:420px;height:420px;background:#19c2c2"></div>
+      <div class="mascot-slot bird float" data-opts='{"size":360,"wave":false,"acc":"headset"}'></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHAT IT IS ============ -->
+<section class="band" data-screen-label="What it is">
+  <div class="grid-bg fade"></div>
+  <div class="glow" style="width:640px;height:640px;left:0;bottom:-12%;background:#0f8f8f"></div>
+  <div class="wrap two">
+    <div>
+      <p class="kick reveal">What it is</p>
+      <h2 class="stmt reveal d1">One protocol.<br><span class="accent">Every agent.</span></h2>
+      <p class="lead reveal d2">Fleetsurf is a universal adapter for AI agents. Connect the setup you already love — then talk to every other tool, runtime, and agent through one open, neutral standard.</p>
+    </div>
+    <div class="figure reveal d1">
+      <div class="glow" data-parallax="80" style="width:420px;height:420px;background:#19c2c2"></div>
+      <div class="mascot-slot bird float" data-opts='{"size":370,"wave":false,"acc":"antenna"}'></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONNECT / ECOSYSTEM ============ -->
+<section class="band alt" id="connect-sec" data-screen-label="Connect">
+  <div class="grid-bg fade"></div>
+  <div class="wrap">
+    <p class="kick reveal">The ecosystem</p>
+    <h2 class="stmt reveal d1" style="font-size:clamp(40px,6vw,72px)">Plug in <span class="accent">everything</span>.</h2>
+    <p class="lead reveal d2" style="max-width:62ch">Every agent and coding tool, connected through one layer — routing context, calls, and results between them in real time.</p>
+  </div>
+  <div class="wrap connect-wrap reveal d2">
+    <div id="connect"></div>
+  </div>
+</section>
+
+<!-- ============ COLLABORATE ============ -->
+<section class="band" data-screen-label="Collaborate">
+  <div class="grid-bg fade"></div>
+  <div class="wrap" style="text-align:center">
+    <p class="kick ctr reveal">Shared context</p>
+    <h2 class="stmt reveal d1" style="margin:0 auto">Agents that<br>actually <span class="coral">talk</span>.</h2>
+    <p class="lead reveal d2" style="margin:30px auto 0;max-width:50ch">Memory, context, and data flow between tools — so a plan written in one agent is understood, continued, and shipped by the next.</p>
+  </div>
+  <div class="wrap talk-stage reveal d2">
+    <svg class="arc" viewBox="0 0 1200 420" preserveAspectRatio="xMidYMid meet">
+      <path d="M250 320 Q600 90 950 320" fill="none" stroke="#19c2c2" stroke-width="2.5" stroke-dasharray="7 11" opacity="0.55"/>
+      <circle r="7" fill="#ffd166" opacity="0"><animateMotion dur="2.4s" repeatCount="indefinite" path="M250 320 Q600 90 950 320"/><animate attributeName="opacity" values="0;1;1;0" dur="2.4s" repeatCount="indefinite"/></circle>
+      <circle r="6" fill="#ff7a59" opacity="0"><animateMotion dur="2.8s" begin="0.8s" repeatCount="indefinite" path="M950 320 Q600 90 250 320"/><animate attributeName="opacity" values="0;1;1;0" dur="2.8s" begin="0.8s" repeatCount="indefinite"/></circle>
+      <circle r="6" fill="#bdfcfc" opacity="0"><animateMotion dur="2.6s" begin="1.4s" repeatCount="indefinite" path="M250 320 Q600 90 950 320"/><animate attributeName="opacity" values="0;1;1;0" dur="2.6s" begin="1.4s" repeatCount="indefinite"/></circle>
+    </svg>
+    <div class="mascot-slot bird bob b-left" data-opts='{"size":250,"wave":false,"acc":"headset"}'></div>
+    <div class="mascot-slot bird bob b3 b-right" data-opts='{"size":250,"wave":false,"acc":"antenna","body":"#ff7a59","belly":"#ffd9cc","board":"#19c2c2","boardDark":"#0f8f8f","beak":"#ffd166","bodyDark":"#e05a3a"}'></div>
+  </div>
+</section>
+
+<!-- ============ ORCHESTRATE ============ -->
+<section class="band alt" id="orchestrate" data-screen-label="Orchestrate">
+  <div class="grid-bg fade"></div>
+  <div class="wrap">
+    <p class="kick reveal">Orchestration</p>
+    <h2 class="stmt reveal d1" style="font-size:clamp(42px,7vw,90px)">Fleets, not <span class="accent">soloists</span>.</h2>
+    <p class="lead reveal d2" style="max-width:56ch">Spin up coordinated fleets that plan, build, review, and ship together — each agent in its lane, all moving as one.</p>
+  </div>
+  <div class="fleet-stage reveal d2">
+    <svg class="path" viewBox="0 0 1920 520" preserveAspectRatio="none">
+      <path d="M-40 400 Q400 270 820 350 T1640 330 T2000 270" fill="none" stroke="#19c2c2" stroke-width="3" stroke-dasharray="9 12" opacity="0.45" style="animation:fs-flow 1.1s linear infinite"/>
+    </svg>
+    <div class="mascot-slot bird bob" data-opts='{"size":290,"wave":false,"acc":"heli"}' style="right:8%;bottom:120px"></div>
+    <div class="mascot-slot bird bob b2" data-opts='{"size":146,"wave":false}' style="left:7%;bottom:96px"></div>
+    <div class="mascot-slot bird bob b3" data-opts='{"size":160,"wave":false,"body":"#ffd166","belly":"#fff3cf","board":"#ff7a59","boardDark":"#e05a3a","beak":"#19c2c2","bodyDark":"#e3b43f"}' style="left:28%;bottom:124px"></div>
+    <div class="mascot-slot bird bob b4" data-opts='{"size":152,"wave":false,"body":"#ff7a59","belly":"#ffd9cc","board":"#19c2c2","boardDark":"#0f8f8f","beak":"#ffd166","bodyDark":"#e05a3a"}' style="left:48%;bottom:108px"></div>
+    <div class="ocean" data-h="230" data-colors="#0b5566,#0f8f8f,#19c2c2"></div>
+  </div>
+</section>
+
+<!-- ============ OPEN ============ -->
+<section class="band" data-screen-label="Open">
+  <div class="grid-bg fade"></div>
+  <div class="glow" style="width:700px;height:700px;left:0;top:50%;transform:translateY(-50%);background:#103a52"></div>
+  <div class="wrap two" style="grid-template-columns:.9fr 1.1fr">
+    <div class="figure reveal d1">
+      <div class="mascot-slot bird float" data-opts='{"size":390,"wave":false,"acc":"jetpack"}'></div>
+    </div>
+    <div>
+      <p class="kick reveal">Open by default</p>
+      <h2 class="stmt reveal d1">Open.<br>Neutral.<br><span class="accent">Yours.</span></h2>
+      <p class="lead reveal d2">No lock-in, no gatekeeper. Connect any agent, extend with your own adapters, and keep full control of your stack.</p>
+      <p class="reveal d3" style="margin-top:28px;display:flex;align-items:center;gap:12px;color:var(--muted-2);font-family:var(--mono);font-size:15px">
+        <span style="width:26px;height:1px;background:var(--line-2)"></span>
+        bring your own keys or subscriptions
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MEET THE FLEET ============ -->
+<section class="band alt" id="fleet" data-screen-label="Meet the fleet">
+  <div class="grid-bg fade"></div>
+  <div class="wrap">
+    <p class="kick reveal">The crew</p>
+    <h2 class="stmt reveal d1" style="font-size:clamp(42px,6vw,72px)">Meet the <span class="accent">fleet</span>.</h2>
+    <p class="lead reveal d2" style="max-width:60ch">One mascot, many missions. Surfy the fleetsurf bird shows up wherever the work takes them.</p>
+    <div class="crew">
+      <div class="member reveal d1"><div class="mascot-slot slot bob" data-opts='{"size":190,"wave":false,"acc":"goggles"}'></div><div class="cap">aviator</div></div>
+      <div class="member reveal d2"><div class="mascot-slot slot bob b2" data-opts='{"size":190,"wave":false,"acc":"heli"}'></div><div class="cap">chopper</div></div>
+      <div class="member reveal d3"><div class="mascot-slot slot bob b3" data-opts='{"size":190,"wave":false,"acc":"jetpack"}'></div><div class="cap">jetpack</div></div>
+      <div class="member reveal d4"><div class="mascot-slot slot bob b4" data-opts='{"size":190,"wave":false,"acc":"antenna"}'></div><div class="cap">signal</div></div>
+      <div class="member reveal d5"><div class="mascot-slot slot bob b5" data-opts='{"size":190,"wave":false,"acc":"telescope"}'></div><div class="cap">lookout</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CLOSE / FOOTER ============ -->
+<footer class="band" data-screen-label="Close">
+  <div class="grid-bg fade"></div>
+  <div class="glow" style="width:900px;height:600px;left:50%;top:40%;transform:translate(-50%,-50%);background:#0f8f8f"></div>
+  <div class="flock close-flock" data-count="9" data-op="0.4"></div>
+  <div class="close wrap">
+    <div class="mascot-slot bird bob" data-opts='{"size":230,"wave":false,"acc":"flag","flag":"#19c2c2"}' style="display:flex;justify-content:center;margin-bottom:6px"></div>
+    <h2 class="reveal">fleet<span>surf</span></h2>
+    <p class="tag reveal d1">Connect the agent you like to every agent you can run.</p>
+    <p class="codeline reveal d1">any agent &lt;&gt; fleet of any agents</p>
+    <div class="cta-row reveal d2">
+      <a class="gh lg" href="https://github.com/fleetsurf" target="_blank" rel="noopener">
+        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        View on GitHub
+      </a>
+    </div>
+  </div>
+  <div class="ocean footer-ocean" data-h="380" data-colors="#082c3a,#0a3a4a,#0b5566,#0f8f8f,#19c2c2"></div>
+  <div class="footmeta">
+    <b>fleetsurf</b>
+    <span>open source · the agent-to-agent protocol</span>
+    <div class="links">
+      <a href="https://github.com/fleetsurf" target="_blank" rel="noopener">github.com/fleetsurf</a>
+    </div>
+  </div>
+</footer>
+
+<script src="mascot.js"></script>
+<script src="image-slot.js"></script>
+<script src="deck-helpers.js"></script>
+<script src="connect.js"></script>
+<script src="web-reveal.js"></script>
+<script src="web-parallax.js"></script>
+<script src="ocean.js"></script>
+</body>
+</html>

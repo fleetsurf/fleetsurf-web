@@ -1,0 +1,56 @@
+name: Deploy website
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: deploy-website
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      AWS_REGION: ${{ vars.AWS_REGION }}
+      S3_BUCKET: ${{ vars.S3_BUCKET }}
+      CLOUDFRONT_DISTRIBUTION_ID: ${{ vars.CLOUDFRONT_DISTRIBUTION_ID }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate static site
+        run: |
+          test -f public/index.html
+          test -f public/fleetsurf-v2.css
+          test -f public/web.css
+          test -f public/web2.css
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Sync assets
+        run: |
+          aws s3 sync public/ "s3://${S3_BUCKET}/" \
+            --delete \
+            --exclude "index.html" \
+            --cache-control "public,max-age=3600"
+          aws s3 cp public/index.html "s3://${S3_BUCKET}/index.html" \
+            --cache-control "public,max-age=60,must-revalidate" \
+            --content-type "text/html; charset=utf-8"
+
+      - name: Invalidate CDN
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id "${CLOUDFRONT_DISTRIBUTION_ID}" \
+            --paths "/*"
