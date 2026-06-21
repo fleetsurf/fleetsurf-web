@@ -45,7 +45,7 @@
       ].filter(Boolean).join(' ');
       const slot = n.custom
         ? `<div class="ph">+</div>`
-        : `<span class="${logoClasses}"><img src="${n.logo}" alt="${n.name} logo" loading="lazy" decoding="async"></span>`;
+        : `<span class="${logoClasses}"><img src="${n.logo}" alt="${n.name} logo" loading="eager" decoding="async"></span>`;
       chips += `<div class="eco-chip${n.custom ? ' custom' : ''}" style="left:${left}%;top:${top}%;border-color:${n.custom ? '' : n.c}">
           ${slot}<span class="nm">${n.name}</span>
         </div>`;

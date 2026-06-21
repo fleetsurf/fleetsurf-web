@@ -252,6 +252,7 @@ footer.band{position:relative;overflow:hidden;min-height:98vh;padding:clamp(120p
 .close{position:relative;z-index:4;text-align:center;padding:0;margin-bottom:clamp(40px,9vw,110px)}
 .close .waveband{display:none}
 .footer-ocean{height:clamp(340px,40vw,520px)}
+.open-split{grid-template-columns:.9fr 1.1fr}
 .footmeta{position:absolute;left:50%;bottom:0;transform:translateX(-50%);
   z-index:6;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;
   width:100%;max-width:1200px;padding:24px 40px 30px;margin:0;border-top:1px solid var(--line)}
@@ -313,6 +314,256 @@ footer.band{position:relative;overflow:hidden;min-height:98vh;padding:clamp(120p
   .footmeta .links{justify-content:center}
 }
 
-@media (max-width:380px){
+@media (max-width:760px){
+  section.band{padding:82px 0}
+  .wrap{padding:0 24px}
+  .two{
+    gap:0;
+    align-items:start;
+  }
+  .two > div:not(.figure){min-width:0}
+  .two .figure{
+    order:2;
+    min-height:0;
+    width:100%;
+    max-width:280px;
+    height:auto;
+    margin:30px auto 0;
+  }
+  .two .figure .glow{
+    left:50%!important;
+    right:auto!important;
+    top:50%!important;
+    bottom:auto!important;
+    width:260px!important;
+    height:260px!important;
+    transform:translate(-50%,-50%)!important;
+    opacity:.24;
+  }
+  .two .figure .mascot-slot{
+    width:min(260px,72vw)!important;
+    height:min(260px,72vw)!important;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .two .figure .mascot-slot svg{
+    width:100%!important;
+    height:100%!important;
+  }
+  .open-split{grid-template-columns:1fr!important}
+  .kick{
+    font-size:12px;
+    letter-spacing:.14em;
+    gap:12px;
+    margin-bottom:18px;
+  }
+  .kick::before{width:32px}
+  .stmt{
+    font-size:44px;
+    line-height:1.02;
+    letter-spacing:0;
+  }
+  .lead{
+    font-size:19px;
+    line-height:1.5;
+    margin-top:22px;
+  }
+  .connect-wrap{margin-top:28px}
+  #connect{gap:9px}
+  #connect .eco-chip{
+    min-height:62px;
+    padding:7px 9px;
+    border-radius:13px;
+    gap:9px;
+  }
+  #connect .eco-chip .nm{font-size:14px}
+  #connect .eco-chip .logo-tile,
+  #connect .eco-chip .ph{
+    width:38px;
+    height:38px;
+    border-radius:9px;
+  }
+  #connect .eco-chip .logo-tile img{
+    width:24px;
+    height:24px;
+  }
+  #connect .eco-chip .logo-tile-wide img{
+    width:30px;
+    height:15px;
+  }
+  #connect .eco-chip .logo-tile-image img{
+    width:30px;
+    height:30px;
+    border-radius:7px;
+  }
+  .talk-stage{
+    height:224px;
+    margin-top:30px;
+  }
+  .talk-stage .bird{
+    width:168px;
+    height:168px;
+  }
+  .talk-stage .bird svg{
+    width:100%!important;
+    height:100%!important;
+  }
+  .talk-stage .b-left{
+    left:4%;
+    bottom:10px;
+  }
+  .talk-stage .b-right{
+    right:4%;
+    bottom:8px;
+  }
+  .talk-stage svg.arc{
+    top:8px;
+    height:190px;
+  }
+  .fleet-stage{
+    height:300px;
+    margin-top:24px;
+    overflow:hidden;
+  }
+  .fleet-stage .bird{
+    width:var(--fleet-size);
+    height:var(--fleet-size);
+  }
+  .fleet-stage .bird svg{
+    width:100%!important;
+    height:100%!important;
+  }
+  .fleet-stage svg.path{
+    top:66px;
+    height:210px;
+  }
+  .fleet-bird-lead{
+    --fleet-size:158px;
+    right:4%!important;
+    bottom:84px!important;
+  }
+  .fleet-bird-scout{
+    --fleet-size:94px;
+    left:4%!important;
+    bottom:78px!important;
+  }
+  .fleet-bird-gold{
+    --fleet-size:102px;
+    left:31%!important;
+    bottom:92px!important;
+  }
+  .fleet-bird-coral{
+    --fleet-size:98px;
+    left:56%!important;
+    bottom:76px!important;
+  }
+  .fleet-stage .ocean{height:160px!important}
+  .crew{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:24px 12px;
+    margin-top:34px;
+  }
+  .crew .member{min-width:0}
+  .crew .member .slot{
+    height:148px;
+    align-items:center;
+  }
+  .crew .member .slot svg{
+    width:138px!important;
+    height:138px!important;
+  }
+  .crew .member .cap{
+    font-size:13px;
+    margin-top:4px;
+  }
+  footer.band{
+    min-height:auto;
+    padding:86px 0 205px;
+  }
+  .close{
+    margin-bottom:42px;
+  }
+  .close .bird svg{
+    width:156px!important;
+    height:156px!important;
+  }
+  .close h2{
+    font-size:58px;
+    letter-spacing:0;
+  }
+  .close .tag{font-size:20px}
+  .close .codeline{font-size:13px}
+  .footer-ocean{height:260px}
+  .footmeta{
+    gap:8px;
+    padding:18px 24px 22px;
+    font-size:12px;
+  }
+  .footmeta .links{font-size:12px}
+}
+
+@media (max-width:340px){
   #connect{grid-template-columns:1fr}
+}
+
+@media (max-width:420px){
+  section.band{padding:72px 0}
+  .stmt{font-size:40px}
+  .lead{font-size:18px}
+  .two .figure{
+    max-width:238px;
+    margin-top:24px;
+  }
+  .two .figure .glow{
+    width:228px!important;
+    height:228px!important;
+  }
+  .two .figure .mascot-slot{
+    width:min(232px,68vw)!important;
+    height:min(232px,68vw)!important;
+  }
+  .talk-stage{
+    height:204px;
+  }
+  .talk-stage .bird{
+    width:152px;
+    height:152px;
+  }
+  .fleet-stage{
+    height:270px;
+  }
+  .fleet-stage svg.path{
+    top:58px;
+    height:192px;
+  }
+  .fleet-bird-lead{
+    --fleet-size:144px;
+    bottom:78px!important;
+  }
+  .fleet-bird-scout{
+    --fleet-size:86px;
+    bottom:72px!important;
+  }
+  .fleet-bird-gold{
+    --fleet-size:92px;
+    left:30%!important;
+    bottom:86px!important;
+  }
+  .fleet-bird-coral{
+    --fleet-size:88px;
+    left:56%!important;
+    bottom:70px!important;
+  }
+  .fleet-stage .ocean{height:146px!important}
+  .crew .member .slot{
+    height:132px;
+  }
+  .crew .member .slot svg{
+    width:124px!important;
+    height:124px!important;
+  }
+  .close h2{font-size:52px}
+  .close .tag{font-size:18px}
+  .footer-ocean{height:238px}
 }
