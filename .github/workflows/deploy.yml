@@ -63,6 +63,8 @@ jobs:
             --include "*.js" \
             --exclude "image-slot.js" \
             --cache-control "public,max-age=60,must-revalidate"
+          aws s3 rm "s3://${S3_BUCKET}/image-slot.js" || true
+          aws s3 rm "s3://${S3_BUCKET}/.image-slots.state.json" || true
           aws s3 cp public/index.html "s3://${S3_BUCKET}/index.html" \
             --cache-control "public,max-age=60,must-revalidate" \
             --content-type "text/html; charset=utf-8"
