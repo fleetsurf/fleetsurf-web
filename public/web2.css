@@ -182,15 +182,15 @@ section.band,header.hero,footer.band{background:transparent}
   .hero .gh.lg svg{width:19px;height:19px}
   .hero-flock{display:none}
   .hero-birds{
-    bottom:clamp(24px,3.5svh,34px);
+    bottom:clamp(28px,4svh,38px);
     width:calc(100% - 44px);
     height:clamp(158px,24svh,194px);
   }
   .hero-bird-goggles,
   .hero-bird-jetpack{display:none}
-  .hero-bird-heli{--bird-size:116px;left:0;top:52%}
+  .hero-bird-heli{--bird-size:108px;left:0;top:48%}
   .hero-bird-main{--bird-size:148px;top:0}
-  .hero-bird-flag{--bird-size:118px;right:0;top:54%}
+  .hero-bird-flag{--bird-size:110px;right:0;top:50%}
   .scroll-hint{display:none}
 }
 
@@ -207,9 +207,9 @@ section.band,header.hero,footer.band{background:transparent}
     width:calc(100% - 34px);
     height:clamp(148px,23svh,178px);
   }
-  .hero-bird-heli{--bird-size:106px;top:58%}
-  .hero-bird-main{--bird-size:138px}
-  .hero-bird-flag{--bird-size:108px;top:60%}
+  .hero-bird-heli{--bird-size:100px;top:50%}
+  .hero-bird-main{--bird-size:136px}
+  .hero-bird-flag{--bird-size:102px;top:52%}
 }
 
 @media (max-width:360px){
@@ -221,22 +221,25 @@ section.band,header.hero,footer.band{background:transparent}
 
 @media (max-height:760px) and (min-width:760px){
   .hero{
-    --hero-ocean-height:230px;
-    padding-top:96px;
+    --hero-ocean-height:220px;
+    padding-top:88px;
   }
   .hero-copy{transform:translateY(-42px)}
-  .hero h1{font-size:140px}
-  .hero .tag{font-size:24px;margin-top:24px}
-  .hero .codeline{font-size:16px}
+  .hero h1{font-size:130px}
+  .hero .tag{font-size:22px;margin-top:22px}
+  .hero .codeline{font-size:15px}
+  .hero .cta-row{margin-top:26px}
+  .hero .gh.lg{font-size:15px;padding:13px 24px}
+  .hero .gh.lg svg{width:20px;height:20px}
   .hero-birds{
-    height:190px;
-    bottom:30px;
+    height:176px;
+    bottom:38px;
   }
-  .hero-bird-heli{--bird-size:128px;top:44%}
-  .hero-bird-goggles{--bird-size:108px;top:62%}
-  .hero-bird-main{--bird-size:170px;top:4%}
-  .hero-bird-flag{--bird-size:132px;top:46%}
-  .hero-bird-jetpack{--bird-size:108px;top:64%}
+  .hero-bird-heli{--bird-size:118px;top:38%}
+  .hero-bird-goggles{--bird-size:100px;top:56%}
+  .hero-bird-main{--bird-size:158px;top:0}
+  .hero-bird-flag{--bird-size:122px;top:40%}
+  .hero-bird-jetpack{--bird-size:100px;top:58%}
 }
 
 /* scroll hint fades once you leave the hero */

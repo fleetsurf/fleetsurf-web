@@ -13,9 +13,49 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="fleetsurf-v2.css">
-<link rel="stylesheet" href="web.css">
-<link rel="stylesheet" href="web2.css">
+<!--
+  Asset version token. BUMP THIS (?v=...) whenever any CSS/JS below changes so
+  returning visitors with a stale browser cache fetch the new files instead of
+  pairing new index.html with old cached CSS/JS. CloudFront invalidation alone
+  does NOT clear the visitor's own browser cache.
+-->
+<link rel="stylesheet" href="fleetsurf-v2.css?v=20260621-hero-logo-repair">
+<link rel="stylesheet" href="web.css?v=20260621-hero-logo-repair">
+<link rel="stylesheet" href="web2.css?v=20260621-hero-logo-repair">
+<!-- Critical hero fallback: keeps birds positioned if a browser pairs new HTML
+     with stale cached CSS. It intentionally comes after the external styles and
+     mirrors web2.css hero bird rules so stale assets cannot recreate the left pile. -->
+<style id="hero-critical">
+  .hero-birds{position:absolute;left:50%;bottom:clamp(34px,5svh,76px);transform:translateX(-50%);width:min(1180px,calc(100% - 48px));height:clamp(178px,25svh,300px);z-index:4;pointer-events:none;overflow:visible}
+  .hero-birds .bird{position:absolute;width:var(--bird-size);height:var(--bird-size);filter:drop-shadow(0 24px 30px rgba(0,0,0,.42))}
+  .hero-birds .bird svg{width:100%!important;height:100%!important;display:block}
+  .hero-bird-heli{--bird-size:172px;left:4%;top:38%}
+  .hero-bird-goggles{--bird-size:150px;left:21%;top:56%}
+  .hero-bird-main{--bird-size:230px;left:50%;top:8%;margin-left:calc(var(--bird-size) * -0.5)}
+  .hero-bird-flag{--bird-size:178px;right:4%;top:40%}
+  .hero-bird-jetpack{--bird-size:150px;right:21%;top:58%}
+  @media (max-width:1180px){
+    .hero-bird-heli{--bird-size:150px}.hero-bird-goggles{--bird-size:132px}.hero-bird-main{--bird-size:204px}.hero-bird-flag{--bird-size:154px}.hero-bird-jetpack{--bird-size:132px}
+  }
+  @media (max-width:900px){
+    .hero-birds{bottom:clamp(28px,4svh,44px);width:min(720px,calc(100% - 38px));height:clamp(170px,24svh,220px)}
+    .hero-bird-heli{--bird-size:124px;left:0;top:48%}.hero-bird-goggles{--bird-size:108px;left:24%;top:64%}.hero-bird-main{--bird-size:166px;top:4%}.hero-bird-flag{--bird-size:126px;right:0;top:50%}.hero-bird-jetpack{--bird-size:108px;right:24%;top:66%}
+  }
+  @media (max-width:700px){
+    .hero-birds{bottom:clamp(28px,4svh,38px);width:calc(100% - 44px);height:clamp(158px,24svh,194px)}
+    .hero-bird-goggles,.hero-bird-jetpack{display:none}.hero-bird-heli{--bird-size:108px;left:0;top:48%}.hero-bird-main{--bird-size:148px;top:0}.hero-bird-flag{--bird-size:110px;right:0;top:50%}
+  }
+  @media (max-width:420px){
+    .hero-birds{width:calc(100% - 34px);height:clamp(148px,23svh,178px)}
+    .hero-bird-heli{--bird-size:100px;top:50%}.hero-bird-main{--bird-size:136px}.hero-bird-flag{--bird-size:102px;top:52%}
+  }
+  @media (max-width:360px){
+    .hero-bird-flag{display:none}.hero-bird-heli{left:4%;top:48%;--bird-size:100px}.hero-bird-main{left:68%;top:12%;--bird-size:132px}
+  }
+  @media (max-height:760px) and (min-width:760px){
+    .hero-birds{height:176px;bottom:38px}.hero-bird-heli{--bird-size:118px;top:38%}.hero-bird-goggles{--bird-size:100px;top:56%}.hero-bird-main{--bird-size:158px;top:0}.hero-bird-flag{--bird-size:122px;top:40%}.hero-bird-jetpack{--bird-size:100px;top:58%}
+  }
+</style>
 </head>
 <body>
 
@@ -227,11 +267,11 @@
   </div>
 </footer>
 
-<script src="mascot.js"></script>
-<script src="deck-helpers.js"></script>
-<script src="connect.js"></script>
-<script src="web-reveal.js"></script>
-<script src="web-parallax.js"></script>
-<script src="ocean.js"></script>
+<script src="mascot.js?v=20260621-hero-logo-repair"></script>
+<script src="deck-helpers.js?v=20260621-hero-logo-repair"></script>
+<script src="connect.js?v=20260621-hero-logo-repair"></script>
+<script src="web-reveal.js?v=20260621-hero-logo-repair"></script>
+<script src="web-parallax.js?v=20260621-hero-logo-repair"></script>
+<script src="ocean.js?v=20260621-hero-logo-repair"></script>
 </body>
 </html>
