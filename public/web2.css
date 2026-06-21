@@ -259,6 +259,99 @@ footer.band{position:relative;overflow:hidden;min-height:98vh;padding:clamp(120p
 .footmeta::before{content:"";position:absolute;inset:auto -50vw -1px;top:-40px;height:calc(100% + 40px);
   background:linear-gradient(180deg,transparent,rgba(5,10,20,.78));z-index:-1;pointer-events:none}
 
+@media (max-width:900px){
+  .nav .brand,
+  .nav .gh{
+    min-height:44px;
+    display:inline-flex;
+    align-items:center;
+  }
+  .nav .gh{
+    min-width:44px;
+    justify-content:center;
+  }
+  .footmeta a{
+    display:inline-flex;
+    align-items:center;
+    min-height:44px;
+  }
+  .crew .member:last-child{
+    grid-column:1/-1;
+    justify-self:center;
+    width:min(50%,340px);
+  }
+}
+
+@media (min-width:761px) and (max-width:900px){
+  .atmos .pool{
+    filter:blur(104px);
+    animation:none;
+    will-change:auto;
+  }
+  .band > .glow{will-change:auto}
+  @media (prefers-reduced-motion:no-preference){
+    .reveal{
+      transform:translateY(18px);
+      filter:none;
+      transition-duration:.55s,.55s,.55s;
+    }
+    .reveal.d1{transition-delay:.04s}
+    .reveal.d2{transition-delay:.08s}
+    .reveal.d3{transition-delay:.12s}
+    .reveal.d4{transition-delay:.16s}
+    .reveal.d5{transition-delay:.2s}
+  }
+  .connect-wrap{
+    height:auto;
+    min-height:0;
+  }
+  #connect{
+    position:relative;
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:10px;
+  }
+  #connect > svg{display:none}
+  #connect .eco-chip{
+    position:relative;
+    left:auto!important;
+    top:auto!important;
+    transform:none;
+    justify-content:flex-start;
+    min-width:0;
+    min-height:60px;
+    gap:10px;
+    padding:8px 10px;
+    border-radius:14px;
+  }
+  #connect .eco-chip .nm{
+    min-width:0;
+    white-space:normal;
+    font-size:15px;
+    line-height:1.12;
+  }
+  #connect .eco-chip .logo-tile,
+  #connect .eco-chip .ph{
+    width:40px;
+    height:40px;
+    border-radius:10px;
+  }
+  #connect .eco-chip .logo-tile img{
+    width:26px;
+    height:26px;
+  }
+  #connect .eco-chip .logo-tile-wide img{
+    width:32px;
+    height:16px;
+  }
+  #connect .eco-chip .logo-tile-image img{
+    width:32px;
+    height:32px;
+    border-radius:8px;
+  }
+  #connect .eco-chip .ph{font-size:24px}
+}
+
 @media (max-width:760px){
   .connect-wrap{
     height:auto;
@@ -315,7 +408,25 @@ footer.band{position:relative;overflow:hidden;min-height:98vh;padding:clamp(120p
 }
 
 @media (max-width:760px){
-  section.band{padding:82px 0}
+  .atmos .pool{
+    filter:blur(96px);
+    animation:none;
+    will-change:auto;
+  }
+  .band > .glow{will-change:auto}
+  @media (prefers-reduced-motion:no-preference){
+    .reveal{
+      transform:translateY(18px);
+      filter:none;
+      transition-duration:.55s,.55s,.55s;
+    }
+    .reveal.d1{transition-delay:.04s}
+    .reveal.d2{transition-delay:.08s}
+    .reveal.d3{transition-delay:.12s}
+    .reveal.d4{transition-delay:.16s}
+    .reveal.d5{transition-delay:.2s}
+  }
+  section.band{padding:74px 0}
   .wrap{padding:0 24px}
   .two{
     gap:0;
@@ -365,11 +476,11 @@ footer.band{position:relative;overflow:hidden;min-height:98vh;padding:clamp(120p
     letter-spacing:0;
   }
   .lead{
-    font-size:19px;
-    line-height:1.5;
-    margin-top:22px;
+    font-size:18px;
+    line-height:1.46;
+    margin-top:18px;
   }
-  .connect-wrap{margin-top:28px}
+  .connect-wrap{margin-top:22px}
   #connect{gap:9px}
   #connect .eco-chip{
     min-height:62px;
@@ -398,12 +509,12 @@ footer.band{position:relative;overflow:hidden;min-height:98vh;padding:clamp(120p
     border-radius:7px;
   }
   .talk-stage{
-    height:224px;
-    margin-top:30px;
+    height:208px;
+    margin-top:24px;
   }
   .talk-stage .bird{
-    width:168px;
-    height:168px;
+    width:158px;
+    height:158px;
   }
   .talk-stage .bird svg{
     width:100%!important;
@@ -419,11 +530,11 @@ footer.band{position:relative;overflow:hidden;min-height:98vh;padding:clamp(120p
   }
   .talk-stage svg.arc{
     top:8px;
-    height:190px;
+    height:176px;
   }
   .fleet-stage{
-    height:300px;
-    margin-top:24px;
+    height:282px;
+    margin-top:20px;
     overflow:hidden;
   }
   .fleet-stage .bird{
@@ -461,10 +572,13 @@ footer.band{position:relative;overflow:hidden;min-height:98vh;padding:clamp(120p
   .fleet-stage .ocean{height:160px!important}
   .crew{
     grid-template-columns:repeat(2,minmax(0,1fr));
-    gap:24px 12px;
-    margin-top:34px;
+    gap:20px 12px;
+    margin-top:28px;
   }
   .crew .member{min-width:0}
+  .crew .member:last-child{
+    width:min(50%,170px);
+  }
   .crew .member .slot{
     height:148px;
     align-items:center;
@@ -508,62 +622,270 @@ footer.band{position:relative;overflow:hidden;min-height:98vh;padding:clamp(120p
 }
 
 @media (max-width:420px){
-  section.band{padding:72px 0}
-  .stmt{font-size:40px}
-  .lead{font-size:18px}
+  section.band{padding:64px 0}
+  .stmt{font-size:38px}
+  .lead{
+    font-size:17px;
+    line-height:1.45;
+    margin-top:16px;
+  }
+  .connect-wrap{margin-top:20px}
   .two .figure{
-    max-width:238px;
-    margin-top:24px;
+    max-width:220px;
+    margin-top:20px;
   }
   .two .figure .glow{
-    width:228px!important;
-    height:228px!important;
+    width:212px!important;
+    height:212px!important;
   }
   .two .figure .mascot-slot{
-    width:min(232px,68vw)!important;
-    height:min(232px,68vw)!important;
+    width:min(216px,66vw)!important;
+    height:min(216px,66vw)!important;
   }
   .talk-stage{
-    height:204px;
+    height:186px;
   }
   .talk-stage .bird{
-    width:152px;
-    height:152px;
+    width:140px;
+    height:140px;
   }
   .fleet-stage{
-    height:270px;
+    height:244px;
   }
   .fleet-stage svg.path{
-    top:58px;
-    height:192px;
+    top:52px;
+    height:174px;
   }
   .fleet-bird-lead{
-    --fleet-size:144px;
-    bottom:78px!important;
-  }
-  .fleet-bird-scout{
-    --fleet-size:86px;
+    --fleet-size:132px;
     bottom:72px!important;
   }
+  .fleet-bird-scout{
+    --fleet-size:80px;
+    bottom:66px!important;
+  }
   .fleet-bird-gold{
-    --fleet-size:92px;
+    --fleet-size:84px;
     left:30%!important;
-    bottom:86px!important;
+    bottom:78px!important;
   }
   .fleet-bird-coral{
-    --fleet-size:88px;
+    --fleet-size:82px;
     left:56%!important;
-    bottom:70px!important;
+    bottom:64px!important;
   }
-  .fleet-stage .ocean{height:146px!important}
+  .fleet-stage .ocean{height:136px!important}
+  .crew{
+    gap:18px 10px;
+    margin-top:26px;
+  }
   .crew .member .slot{
-    height:132px;
+    height:118px;
   }
   .crew .member .slot svg{
-    width:124px!important;
-    height:124px!important;
+    width:112px!important;
+    height:112px!important;
   }
+  .crew .member .cap{margin-top:2px}
   .close h2{font-size:52px}
   .close .tag{font-size:18px}
   .footer-ocean{height:238px}
+}
+
+@media (max-height:480px) and (max-width:900px){
+  @media (prefers-reduced-motion:no-preference){
+    .reveal{
+      transform:translateY(18px);
+      filter:none;
+      transition-duration:.55s,.55s,.55s;
+    }
+    .reveal.d1{transition-delay:.04s}
+    .reveal.d2{transition-delay:.08s}
+    .reveal.d3{transition-delay:.12s}
+    .reveal.d4{transition-delay:.16s}
+    .reveal.d5{transition-delay:.2s}
+  }
+  .nav{padding:10px 22px}
+  .nav.scrolled{padding:8px 22px}
+  .hero{
+    --hero-ocean-height:132px;
+    min-height:100svh;
+    padding:56px 18px var(--hero-ocean-height);
+    align-content:start;
+  }
+  .hero-copy{
+    max-width:620px;
+    transform:none;
+  }
+  .hero .eyebrow{
+    font-size:11px;
+    letter-spacing:.18em;
+    margin-bottom:7px;
+  }
+  .hero h1{
+    font-size:68px;
+    line-height:.86;
+  }
+  .hero .tag{
+    max-width:32ch;
+    font-size:16px;
+    line-height:1.28;
+    margin-top:12px;
+  }
+  .hero .codeline{display:none}
+  .hero .cta-row{
+    gap:10px;
+    margin-top:14px;
+  }
+  .hero .gh.lg{
+    width:auto;
+    min-height:44px;
+    max-width:none;
+    padding:10px 16px;
+    font-size:13px;
+  }
+  .hero .gh.lg svg{
+    width:18px;
+    height:18px;
+  }
+  .hero-birds{
+    bottom:-4px;
+    width:calc(100% - 56px);
+    height:100px;
+  }
+  .hero-bird-goggles,
+  .hero-bird-jetpack{display:none}
+  .hero-bird-heli{--bird-size:72px;left:9%;top:43%}
+  .hero-bird-main{--bird-size:88px;top:21%}
+  .hero-bird-flag{--bird-size:74px;right:9%;top:44%}
+  .hero-ocean{height:var(--hero-ocean-height)!important}
+  section.band{padding:56px 0}
+  .kick{
+    margin-bottom:14px;
+  }
+  .stmt{
+    font-size:38px;
+    line-height:1;
+  }
+  .lead{
+    font-size:17px;
+    line-height:1.45;
+    margin-top:16px;
+  }
+  .two .figure{
+    max-width:206px;
+    margin-top:18px;
+  }
+  .two .figure .glow{
+    width:196px!important;
+    height:196px!important;
+  }
+  .two .figure .mascot-slot{
+    width:min(196px,40vw)!important;
+    height:min(196px,40vw)!important;
+  }
+  .connect-wrap{
+    height:auto;
+    min-height:0;
+    margin-top:20px;
+  }
+  #connect{
+    position:relative;
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:8px;
+  }
+  #connect > svg{display:none}
+  #connect .eco-chip{
+    position:relative;
+    left:auto!important;
+    top:auto!important;
+    transform:none;
+    justify-content:flex-start;
+    min-width:0;
+    min-height:52px;
+    gap:8px;
+    padding:6px 8px;
+  }
+  #connect .eco-chip .nm{
+    font-size:13px;
+    line-height:1.08;
+  }
+  #connect .eco-chip .logo-tile,
+  #connect .eco-chip .ph{
+    width:34px;
+    height:34px;
+    border-radius:8px;
+  }
+  #connect .eco-chip .logo-tile img{
+    width:22px;
+    height:22px;
+  }
+  #connect .eco-chip .logo-tile-wide img{
+    width:28px;
+    height:14px;
+  }
+  #connect .eco-chip .logo-tile-image img{
+    width:27px;
+    height:27px;
+    border-radius:7px;
+  }
+  .talk-stage{
+    height:170px;
+    margin-top:20px;
+  }
+  .talk-stage .bird{
+    width:126px;
+    height:126px;
+  }
+  .fleet-stage{
+    height:220px;
+    margin-top:18px;
+  }
+  .fleet-stage svg.path{
+    top:42px;
+    height:166px;
+  }
+  .fleet-bird-lead{
+    --fleet-size:116px;
+    bottom:62px!important;
+  }
+  .fleet-bird-scout{
+    --fleet-size:72px;
+    bottom:58px!important;
+  }
+  .fleet-bird-gold{
+    --fleet-size:78px;
+    bottom:70px!important;
+  }
+  .fleet-bird-coral{
+    --fleet-size:76px;
+    bottom:56px!important;
+  }
+  .fleet-stage .ocean{height:116px!important}
+  .crew{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:18px 10px;
+  }
+  .crew .member:last-child{
+    grid-column:auto;
+    width:auto;
+  }
+  .crew .member .slot{
+    height:110px;
+  }
+  .crew .member .slot svg{
+    width:104px!important;
+    height:104px!important;
+  }
+  footer.band{
+    padding:58px 0 168px;
+  }
+  .close .bird svg{
+    width:132px!important;
+    height:132px!important;
+  }
+  .close h2{font-size:46px}
+  .close .tag{font-size:17px}
+  .footer-ocean{height:206px}
 }
