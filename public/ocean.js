@@ -28,8 +28,9 @@
     return d;
   }
 
-  // wavelengths that divide 960 (= half the viewBox) → guarantees identical halves
-  var WAVELENGTHS = [960, 480, 320, 240, 192];
+  // wavelengths that divide 960 (= half the viewBox) → guarantees identical halves.
+  // Repeating the longer periods keeps the visible swells broad instead of choppy.
+  var WAVELENGTHS = [960, 960, 480, 480, 320];
 
   function build(el) {
     var h = +el.getAttribute('data-h') || 260;
@@ -44,7 +45,7 @@
 
     for (var i = 0; i < n; i++) {
       var baseFrac = 0.30 + (0.46 * i) / Math.max(1, n - 1);     // back high → front low
-      var amp = (0.05 + 0.035 * i) * h;
+      var amp = (0.045 + 0.025 * i) * h;
       var wl = WAVELENGTHS[Math.min(i, WAVELENGTHS.length - 1)];
       var op = Math.min(1, 0.46 + 0.16 * i);
       var driftDur = 48 - 7.5 * i;                                // back slow → front fast
