@@ -1,28 +1,19 @@
 /* Fleetsurf — ecosystem "connect everything" slide.
    SVG layer: routed lines, data pulses, glowing hub, goggled mascot.
-   HTML layer: node chips, each with a drop-in <image-slot> for the REAL logo
-   (original monogram shown until the user drops the official mark). */
+   HTML layer: node chips with locally served optimized logo assets. */
 (function () {
-  // original monogram placeholder (NOT a brand logo) shown until a real logo is dropped in
-  function mono(letters, color) {
-    const fs = letters.length > 1 ? 22 : 30;
-    const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='54' height='54' viewBox='0 0 54 54'>`
-      + `<text x='27' y='28' dy='.34em' text-anchor='middle' font-family='Space Grotesk, sans-serif' font-weight='700' font-size='${fs}' fill='${color}'>${letters}</text></svg>`;
-    return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
-  }
-
   // Windsurf removed (too close to "fleetsurf"); added Grok, Higgsfield, OpenCode, Custom adapters.
   const NODES = [
-    { name: 'Claude Code', id: 'eco-claude',  m: 'CC', c: '#ff7a59' },
-    { name: 'Codex',       id: 'eco-codex',   m: 'Cx', c: '#bdfcfc' },
-    { name: 'Cursor',      id: 'eco-cursor',  m: 'Cu', c: '#eaf6f6' },
-    { name: 'Copilot',     id: 'eco-copilot', m: 'Co', c: '#ffd166' },
-    { name: 'Gemini',      id: 'eco-gemini',  m: 'G',  c: '#a78bfa' },
-    { name: 'Grok',        id: 'eco-grok',    m: 'Gr', c: '#bdfcfc' },
-    { name: 'Higgsfield',  id: 'eco-higgs',   m: 'H',  c: '#ff7a59' },
-    { name: 'OpenCode',    id: 'eco-opencode',m: 'OC', c: '#19c2c2' },
-    { name: 'Aider',       id: 'eco-aider',   m: 'Ai', c: '#ffd166' },
-    { name: 'Custom adapters', id: null,      m: '+',  c: '#8aa6bc', custom: true },
+    { name: 'Claude Code', id: 'eco-claude',  logo: 'assets/logos/claude-code.svg',    c: '#d97757' },
+    { name: 'Codex',       id: 'eco-codex',   logo: 'assets/logos/codex-openai.svg',   c: '#eaf6f6' },
+    { name: 'Cursor',      id: 'eco-cursor',  logo: 'assets/logos/cursor.svg',         c: '#eaf6f6' },
+    { name: 'Copilot',     id: 'eco-copilot', logo: 'assets/logos/github-copilot.svg', c: '#ffd166' },
+    { name: 'Gemini',      id: 'eco-gemini',  logo: 'assets/logos/google-gemini.svg',  c: '#8e75b2' },
+    { name: 'Grok',        id: 'eco-grok',    logo: 'assets/logos/grok.svg',           c: '#bdfcfc', darkTile: true },
+    { name: 'Higgsfield',  id: 'eco-higgs',   logo: 'assets/logos/higgsfield.webp',    c: '#ff7a59', image: true },
+    { name: 'OpenCode',    id: 'eco-opencode',logo: 'assets/logos/opencode.svg',       c: '#19c2c2' },
+    { name: 'Aider',       id: 'eco-aider',   logo: 'assets/logos/aider.svg',          c: '#14b014', wide: true, darkTile: true },
+    { name: 'Custom adapters', id: null,      c: '#8aa6bc', custom: true },
   ];
 
   function build() {
@@ -46,9 +37,15 @@
       pulses += `<circle r="4.5" fill="${n.c}" opacity="0"><animateMotion dur="${dur}s" repeatCount="indefinite" begin="${(i * 0.25).toFixed(2)}s" path="${dir}"/><animate attributeName="opacity" values="0;1;1;0" dur="${dur}s" repeatCount="indefinite" begin="${(i * 0.25).toFixed(2)}s"/></circle>`;
 
       const left = (x / W * 100).toFixed(2), top = (y / H * 100).toFixed(2);
+      const logoClasses = [
+        'logo-tile',
+        n.darkTile ? 'logo-tile-dark' : '',
+        n.wide ? 'logo-tile-wide' : '',
+        n.image ? 'logo-tile-image' : '',
+      ].filter(Boolean).join(' ');
       const slot = n.custom
         ? `<div class="ph">+</div>`
-        : `<image-slot id="${n.id}" shape="rounded" radius="12" fit="contain" src="${mono(n.m, n.c)}" placeholder="logo"></image-slot>`;
+        : `<span class="${logoClasses}"><img src="${n.logo}" alt="${n.name} logo" loading="lazy" decoding="async"></span>`;
       chips += `<div class="eco-chip${n.custom ? ' custom' : ''}" style="left:${left}%;top:${top}%;border-color:${n.custom ? '' : n.c}">
           ${slot}<span class="nm">${n.name}</span>
         </div>`;

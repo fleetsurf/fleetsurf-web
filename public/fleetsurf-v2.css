@@ -91,10 +91,39 @@ h2.title .coral{color:var(--coral)}
 
 .waveband{position:absolute;left:0;right:0;bottom:0;width:100%;pointer-events:none;z-index:1}
 
-/* ecosystem chips (slide 4) — each holds a drop-in logo slot */
+/* ecosystem chips (slide 4) */
 .eco-chip{position:absolute;transform:translate(-50%,-50%);display:flex;align-items:center;gap:13px;background:#0c1d33;border:1.5px solid var(--line-2);border-radius:16px;padding:9px 20px 9px 9px;z-index:3}
 .eco-chip .nm{font-family:var(--sans);font-weight:600;font-size:22px;color:var(--ink);white-space:nowrap}
-.eco-chip image-slot{width:54px;height:54px;flex:none;border-radius:12px;overflow:hidden;background:rgba(120,180,200,.06)}
+.eco-chip .logo-tile{
+  width:54px;
+  height:54px;
+  flex:none;
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  background:rgba(255,255,255,.94);
+  box-shadow:inset 0 0 0 1px rgba(8,16,28,.08);
+}
+.eco-chip .logo-tile-dark{
+  background:#05080f;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.1);
+}
+.eco-chip .logo-tile img{
+  width:34px;
+  height:34px;
+  object-fit:contain;
+  display:block;
+}
+.eco-chip .logo-tile-wide img{
+  width:44px;
+  height:22px;
+}
+.eco-chip .logo-tile-image img{
+  width:42px;
+  height:42px;
+  border-radius:10px;
+}
 .eco-chip.custom{border-style:dashed;border-color:var(--muted-2)}
 .eco-chip .ph{width:54px;height:54px;flex:none;border-radius:12px;border:1.5px dashed var(--muted-2);display:grid;place-items:center;color:var(--muted);font-size:30px;font-family:var(--sans);font-weight:600}
 

@@ -70,6 +70,175 @@ section.band,header.hero,footer.band{background:transparent}
 .hero-ocean{z-index:1}
 .footer-ocean{z-index:1}
 
+/* ============ HERO COMPOSITION ============ */
+.hero{
+  --hero-ocean-height:clamp(220px,28svh,320px);
+  min-height:100vh;
+  min-height:100svh;
+  display:grid;
+  place-items:center;
+  align-content:center;
+  overflow:hidden;
+  padding:clamp(92px,12svh,150px) 24px var(--hero-ocean-height);
+}
+.hero-copy{
+  position:relative;
+  z-index:5;
+  width:100%;
+  max-width:1040px;
+  transform:translateY(-34px);
+}
+.hero h1{font-size:190px}
+.hero .tag{font-size:30px}
+.hero .codeline{font-size:20px}
+.hero .cta-row{margin-top:clamp(30px,4svh,42px)}
+.hero-flock{
+  top:clamp(118px,19svh,188px);
+  left:18%;
+  right:18%;
+  height:72px;
+}
+.hero-birds{
+  position:absolute;
+  left:50%;
+  bottom:clamp(34px,5svh,76px);
+  transform:translateX(-50%);
+  width:min(1180px,calc(100% - 48px));
+  max-width:none;
+  height:clamp(178px,25svh,300px);
+  margin:0;
+  z-index:4;
+  pointer-events:none;
+  overflow:visible;
+}
+.hero-birds .bird{
+  width:var(--bird-size);
+  height:var(--bird-size);
+}
+.hero-birds .bird svg{
+  width:100%!important;
+  height:100%!important;
+  display:block;
+}
+.hero-bird-heli{--bird-size:172px;left:4%;top:38%}
+.hero-bird-goggles{--bird-size:150px;left:21%;top:56%}
+.hero-bird-main{--bird-size:230px;left:50%;top:8%;margin-left:calc(var(--bird-size) * -0.5)}
+.hero-bird-flag{--bird-size:178px;right:4%;top:40%}
+.hero-bird-jetpack{--bird-size:150px;right:21%;top:58%}
+.hero-ocean{height:var(--hero-ocean-height)!important}
+
+@media (max-width:1180px){
+  .hero h1{font-size:160px}
+  .hero .tag{font-size:28px}
+  .hero-bird-heli{--bird-size:150px}
+  .hero-bird-goggles{--bird-size:132px}
+  .hero-bird-main{--bird-size:204px}
+  .hero-bird-flag{--bird-size:154px}
+  .hero-bird-jetpack{--bird-size:132px}
+}
+
+@media (max-width:900px){
+  .hero{
+    --hero-ocean-height:clamp(205px,30svh,270px);
+    padding-top:clamp(82px,10svh,118px);
+  }
+  .hero-copy{transform:translateY(-26px)}
+  .hero h1{font-size:116px}
+  .hero .tag{font-size:24px}
+  .hero .codeline{font-size:16px}
+  .hero-flock{
+    top:clamp(90px,13svh,122px);
+    left:20%;
+    right:20%;
+    height:58px;
+    opacity:.5;
+  }
+  .hero-birds{
+    bottom:clamp(28px,4svh,44px);
+    width:min(720px,calc(100% - 38px));
+    height:clamp(170px,24svh,220px);
+  }
+  .hero-bird-heli{--bird-size:124px;left:0;top:48%}
+  .hero-bird-goggles{--bird-size:108px;left:24%;top:64%}
+  .hero-bird-main{--bird-size:166px;top:4%}
+  .hero-bird-flag{--bird-size:126px;right:0;top:50%}
+  .hero-bird-jetpack{--bird-size:108px;right:24%;top:66%}
+}
+
+@media (max-width:700px){
+  .nav .gh{padding:10px 14px;font-size:0;gap:0}
+  .nav .gh svg{width:20px;height:20px}
+  .hero{
+    --hero-ocean-height:clamp(210px,31svh,250px);
+    padding:78px 20px var(--hero-ocean-height);
+  }
+  .hero-copy{transform:translateY(-30px)}
+  .hero .eyebrow{font-size:12px;letter-spacing:.2em;margin-bottom:18px}
+  .hero h1{font-size:86px}
+  .hero .tag{font-size:20px;margin-top:24px}
+  .hero .codeline{font-size:14px;margin-top:14px}
+  .hero .cta-row{gap:10px;margin-top:26px}
+  .hero .gh.lg{font-size:14px;padding:13px 18px}
+  .hero .gh.lg svg{width:19px;height:19px}
+  .hero-flock{display:none}
+  .hero-birds{
+    bottom:clamp(24px,3.5svh,34px);
+    width:calc(100% - 44px);
+    height:clamp(158px,24svh,194px);
+  }
+  .hero-bird-goggles,
+  .hero-bird-jetpack{display:none}
+  .hero-bird-heli{--bird-size:116px;left:0;top:52%}
+  .hero-bird-main{--bird-size:148px;top:0}
+  .hero-bird-flag{--bird-size:118px;right:0;top:54%}
+  .scroll-hint{display:none}
+}
+
+@media (max-width:420px){
+  .hero{
+    --hero-ocean-height:clamp(198px,30svh,230px);
+    padding-top:74px;
+  }
+  .hero h1{font-size:74px}
+  .hero .tag{font-size:18px}
+  .hero .codeline{font-size:12px}
+  .hero .gh.lg{width:100%;max-width:240px;justify-content:center}
+  .hero-birds{
+    width:calc(100% - 34px);
+    height:clamp(148px,23svh,178px);
+  }
+  .hero-bird-heli{--bird-size:106px;top:58%}
+  .hero-bird-main{--bird-size:138px}
+  .hero-bird-flag{--bird-size:108px;top:60%}
+}
+
+@media (max-width:360px){
+  .hero h1{font-size:66px}
+  .hero-bird-flag{display:none}
+  .hero-bird-heli{left:4%;top:48%;--bird-size:100px}
+  .hero-bird-main{left:68%;top:12%;--bird-size:132px}
+}
+
+@media (max-height:760px) and (min-width:760px){
+  .hero{
+    --hero-ocean-height:230px;
+    padding-top:96px;
+  }
+  .hero-copy{transform:translateY(-42px)}
+  .hero h1{font-size:140px}
+  .hero .tag{font-size:24px;margin-top:24px}
+  .hero .codeline{font-size:16px}
+  .hero-birds{
+    height:190px;
+    bottom:30px;
+  }
+  .hero-bird-heli{--bird-size:128px;top:44%}
+  .hero-bird-goggles{--bird-size:108px;top:62%}
+  .hero-bird-main{--bird-size:170px;top:4%}
+  .hero-bird-flag{--bird-size:132px;top:46%}
+  .hero-bird-jetpack{--bird-size:108px;top:64%}
+}
+
 /* scroll hint fades once you leave the hero */
 .scroll-hint{transition:opacity .5s ease}
 body.scrolled-past .scroll-hint{opacity:0;pointer-events:none}
@@ -87,7 +256,60 @@ footer.band{position:relative;overflow:hidden;min-height:98vh;padding:clamp(120p
   background:linear-gradient(180deg,transparent,rgba(5,10,20,.78));z-index:-1;pointer-events:none}
 
 @media (max-width:760px){
+  .connect-wrap{
+    height:auto;
+    min-height:0;
+    margin-top:34px;
+  }
+  #connect{
+    position:relative;
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:10px;
+  }
+  #connect > svg{display:none}
+  #connect .eco-chip{
+    position:relative;
+    left:auto!important;
+    top:auto!important;
+    transform:none;
+    justify-content:flex-start;
+    gap:10px;
+    min-width:0;
+    padding:8px 10px;
+    border-radius:14px;
+  }
+  #connect .eco-chip .nm{
+    min-width:0;
+    white-space:normal;
+    font-size:15px;
+    line-height:1.12;
+  }
+  #connect .eco-chip .logo-tile,
+  #connect .eco-chip .ph{
+    width:42px;
+    height:42px;
+    border-radius:10px;
+  }
+  #connect .eco-chip .logo-tile img{
+    width:27px;
+    height:27px;
+  }
+  #connect .eco-chip .logo-tile-wide img{
+    width:34px;
+    height:17px;
+  }
+  #connect .eco-chip .logo-tile-image img{
+    width:34px;
+    height:34px;
+    border-radius:8px;
+  }
+  #connect .eco-chip .ph{font-size:24px}
   footer.band{min-height:auto;padding-bottom:clamp(220px,52vw,300px)}
   .footmeta{flex-direction:column;gap:12px;text-align:center;padding:22px 24px 26px}
   .footmeta .links{justify-content:center}
+}
+
+@media (max-width:380px){
+  #connect{grid-template-columns:1fr}
 }
