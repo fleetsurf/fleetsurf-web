@@ -1,0 +1,30 @@
+{
+  "name": "Fleetsurf",
+  "short_name": "Fleetsurf",
+  "description": "The open agent-to-agent protocol for connecting the AI agents and tools you already use.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0a1628",
+  "theme_color": "#0a1628",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png?v=20260621-brand",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/android-chrome-512x512.png?v=20260621-brand",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/maskable-icon-512x512.png?v=20260621-brand",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
