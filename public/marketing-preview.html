@@ -1,0 +1,727 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fleetsurf — Marketing Asset Studio (internal)</title>
+<meta name="robots" content="noindex,nofollow">
+<!-- Internal design tool. NOT deployed (see deploy.yml excludes). Serve public/ and open /marketing-preview.html -->
+<link rel="icon" href="favicon.svg">
+<!-- Pull real tokens + mascot motion + ocean wave classes from production CSS -->
+<link rel="stylesheet" href="fleetsurf-v2.css">
+<link rel="stylesheet" href="web2.css">
+<style>
+  /* ============ Studio chrome (namespaced, does not touch production classes) ============ */
+  :root{
+    --stage:#070f1c;
+    --card-bg:#0b1a30;
+    --hair:rgba(120,180,200,.14);
+    --hair-2:rgba(120,180,200,.26);
+  }
+  html{background:var(--stage);scroll-behavior:smooth}
+  body{margin:0;background:var(--stage);color:var(--ink);font-family:var(--body);-webkit-font-smoothing:antialiased}
+  /* This is a static asset-review tool — every preview represents a still PNG.
+     Freeze all motion so we don't stack a dozen live ocean/mascot animations
+     (which pegs the compositor and can blank or crash heavy review pages). The
+     wave + mascot geometry is identical at rest, so previews stay pixel-accurate. */
+  *,*::before,*::after{animation:none !important}
+  .st-wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+  a{color:var(--teal)}
+
+  /* top bar */
+  .st-top{position:sticky;top:0;z-index:40;background:rgba(7,15,28,.86);backdrop-filter:blur(12px);border-bottom:1px solid var(--hair)}
+  .st-top .row{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:14px 28px;max-width:1180px;margin:0 auto;flex-wrap:wrap}
+  .st-top .mark{display:flex;align-items:center;gap:12px;font-family:var(--sans);font-weight:700;letter-spacing:-.02em;font-size:18px}
+  .st-top .mark span{color:var(--teal)}
+  .st-nav{display:flex;gap:8px;flex-wrap:wrap}
+  .st-nav a{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+    text-decoration:none;padding:7px 12px;border:1px solid var(--hair);border-radius:999px;transition:.2s}
+  .st-nav a:hover{color:var(--ink);border-color:var(--hair-2)}
+
+  /* hero */
+  .st-hero{padding:72px 0 40px;border-bottom:1px solid var(--hair);position:relative;overflow:hidden}
+  .st-hero h1{font-family:var(--sans);font-weight:700;letter-spacing:-.03em;font-size:clamp(38px,6vw,68px);line-height:1.02;margin:0 0 18px;max-width:18ch}
+  .st-hero h1 .ac{color:var(--teal)}
+  .st-hero p{font-size:clamp(17px,2vw,21px);line-height:1.55;color:var(--muted);max-width:62ch;margin:0}
+  .st-eyebrow{font-family:var(--mono);font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--teal);margin:0 0 22px;display:flex;align-items:center;gap:14px}
+  .st-eyebrow::before{content:"";width:42px;height:2px;background:var(--teal)}
+
+  section.st{padding:70px 0;border-bottom:1px solid var(--hair)}
+  .st-h{font-family:var(--sans);font-weight:600;letter-spacing:-.02em;font-size:clamp(28px,4vw,44px);margin:0 0 10px}
+  .st-h .num{color:var(--muted-2);font-family:var(--mono);font-size:.5em;font-weight:500;vertical-align:middle;margin-right:14px;letter-spacing:.1em}
+  .st-sub{font-size:18px;line-height:1.6;color:var(--muted);max-width:64ch;margin:0 0 38px}
+
+  /* audit */
+  .findings{display:grid;gap:16px}
+  .finding{display:grid;grid-template-columns:auto 1fr;gap:18px;background:var(--card-bg);border:1px solid var(--hair);border-radius:16px;padding:22px 24px}
+  .sev{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;padding:6px 10px;border-radius:999px;height:max-content;white-space:nowrap}
+  .sev.crit{background:rgba(255,122,89,.16);color:#ff9a7e;border:1px solid rgba(255,122,89,.4)}
+  .sev.warn{background:rgba(255,209,102,.14);color:var(--gold);border:1px solid rgba(255,209,102,.36)}
+  .sev.polish{background:rgba(25,194,194,.14);color:var(--teal);border:1px solid rgba(25,194,194,.36)}
+  .finding h3{font-family:var(--sans);font-weight:600;font-size:20px;margin:2px 0 8px;letter-spacing:-.01em}
+  .finding p{margin:0 0 8px;font-size:15.5px;line-height:1.6;color:var(--muted)}
+  .finding p.fix{color:var(--ink)}
+  .finding p.fix b{color:var(--teal);font-weight:600}
+  .finding .ev{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;align-items:flex-end}
+  .ev figure{margin:0;text-align:center}
+  .ev figure img{display:block;border-radius:8px;border:1px solid var(--hair);background:#0a1628}
+  .ev figcaption{font-family:var(--mono);font-size:10.5px;color:var(--muted-2);margin-top:7px;letter-spacing:.04em}
+  .ev .vs{align-self:center;font-family:var(--mono);color:var(--muted-2);font-size:18px;padding-bottom:18px}
+  .taglines{display:grid;gap:8px;margin-top:14px}
+  .taglines .tl{display:flex;gap:12px;align-items:baseline;font-size:14px;background:#0a1628;border:1px solid var(--hair);border-radius:10px;padding:10px 14px}
+  .taglines .tl code{font-family:var(--mono);color:var(--muted-2);font-size:11px;white-space:nowrap}
+  .taglines .tl span{color:var(--ink)}
+
+  /* tokens */
+  .swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px;margin-bottom:30px}
+  .sw{border-radius:12px;border:1px solid var(--hair);overflow:hidden;background:var(--card-bg)}
+  .sw .chip{height:74px}
+  .sw .meta{padding:9px 11px}
+  .sw .meta b{display:block;font-family:var(--sans);font-size:13px;font-weight:600}
+  .sw .meta code{font-family:var(--mono);font-size:11px;color:var(--muted-2)}
+  .typespec{display:grid;gap:14px}
+  .typespec .t{background:var(--card-bg);border:1px solid var(--hair);border-radius:12px;padding:16px 20px}
+  .typespec .t small{font-family:var(--mono);font-size:11px;color:var(--muted-2);letter-spacing:.08em;text-transform:uppercase}
+
+  /* favicon lab */
+  .legend{display:flex;gap:18px;flex-wrap:wrap;margin:0 0 26px;font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.04em}
+  .legend b{color:var(--teal);font-weight:600}
+  .fav-grid{display:grid;gap:18px}
+  .fav{background:var(--card-bg);border:1px solid var(--hair);border-radius:18px;padding:22px 24px}
+  .fav.rec{border-color:rgba(25,194,194,.5);box-shadow:0 0 0 1px rgba(25,194,194,.18),0 18px 50px -30px rgba(25,194,194,.5)}
+  .fav .top{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:4px}
+  .fav .top h3{font-family:var(--sans);font-weight:600;font-size:20px;margin:0;letter-spacing:-.01em}
+  .fav .tag{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);border:1px solid rgba(25,194,194,.4);padding:3px 8px;border-radius:999px}
+  .fav .desc{font-size:14.5px;color:var(--muted);line-height:1.55;margin:0 0 18px;max-width:70ch}
+  .fav .row{display:flex;gap:26px;flex-wrap:wrap;align-items:flex-end}
+  .fav .grp{display:flex;gap:14px;align-items:flex-end;padding:14px 18px;border-radius:12px;border:1px solid var(--hair)}
+  .fav .grp.navy{background:#0a1628}
+  .fav .grp.light{background:#eef3f5}
+  .fav .grp.tab{background:#1c1f24}
+  .fav .cell{text-align:center}
+  .fav .cell .lab{font-family:var(--mono);font-size:9.5px;color:var(--muted-2);margin-top:8px;letter-spacing:.04em}
+  .fav .grp.light .lab{color:#5a6b73}
+  .icon-box{display:inline-flex;align-items:center;justify-content:center}
+  .icon-box svg{display:block}
+  /* browser tab mock */
+  .tabmock{display:inline-flex;align-items:center;gap:8px;background:#2a2d33;border-radius:9px 9px 0 0;padding:9px 14px 9px 11px;max-width:230px;border:1px solid #34373d;border-bottom:none}
+  .tabmock .fv{width:16px;height:16px;flex:none}
+  .tabmock .ti{font-size:12px;color:#cdd2d8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:var(--body)}
+  .tabmock .x{margin-left:6px;color:#7b8087;font-size:13px}
+  .maskwrap{position:relative;width:96px;height:96px}
+  .maskwrap .safe{position:absolute;inset:0;border-radius:50%;border:1.5px dashed rgba(255,255,255,.34);pointer-events:none}
+  .maskwrap .safe::after{content:"";position:absolute;inset:14%;border-radius:50%;border:1.5px dashed rgba(25,194,194,.5)}
+
+  /* share-card studio */
+  .seg{display:inline-flex;gap:6px;background:var(--card-bg);border:1px solid var(--hair);border-radius:999px;padding:5px;margin-bottom:26px;flex-wrap:wrap}
+  .seg button{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:transparent;border:none;padding:9px 16px;border-radius:999px;cursor:pointer;transition:.2s}
+  .seg button.on{background:var(--teal);color:#04121f;font-weight:600}
+  .seg button:hover:not(.on){color:var(--ink)}
+
+  .cards-rail{display:grid;grid-template-columns:1fr;gap:30px;margin-bottom:14px}
+  @media(min-width:920px){.cards-rail.two{grid-template-columns:1fr 1fr}}
+  .cardblock h4{font-family:var(--sans);font-weight:600;font-size:17px;margin:0 0 4px}
+  .cardblock .meta{font-family:var(--mono);font-size:11px;color:var(--muted-2);margin:0 0 12px;letter-spacing:.04em}
+
+  /* the scalable OG canvas system */
+  .ogframe{position:relative;width:100%;overflow:hidden;border-radius:14px;border:1px solid var(--hair);background:#0a1628}
+  .ogcanvas{position:absolute;top:0;left:0;transform-origin:top left;overflow:hidden}
+
+  /* OG card internals (rendered at TRUE size, then scaled) */
+  .ogc{position:absolute;inset:0;background:
+      radial-gradient(120% 90% at 80% 8%, rgba(15,143,143,.20), transparent 60%),
+      linear-gradient(168deg,#0c2038 0%,#0a1a2e 46%,#081626 72%,#060f1c 100%);
+      overflow:hidden;font-family:var(--body)}
+  .ogc .grid{position:absolute;inset:0;background-image:linear-gradient(var(--hair) 1px,transparent 1px),linear-gradient(90deg,var(--hair) 1px,transparent 1px);opacity:.5;
+      -webkit-mask-image:radial-gradient(ellipse 95% 80% at 42% 36%,#000 30%,transparent 96%);mask-image:radial-gradient(ellipse 95% 80% at 42% 36%,#000 30%,transparent 96%)}
+  .ogc .pad{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;justify-content:center}
+  .ogc .eyebrow{font-family:var(--mono);text-transform:uppercase;color:var(--teal);display:flex;align-items:center}
+  .ogc .eyebrow::before{content:"";background:var(--teal);display:inline-block}
+  .ogc .wm{font-family:var(--sans);font-weight:700;letter-spacing:-.03em;line-height:.9}
+  .ogc .wm span{color:var(--teal)}
+  .ogc h2{font-family:var(--sans);font-weight:600;letter-spacing:-.03em;line-height:1.0;margin:0;color:var(--ink)}
+  .ogc h2 .ac{color:var(--teal)}
+  .ogc .pill{display:inline-flex;align-items:center;gap:.6em;font-family:var(--mono);text-transform:uppercase;color:var(--muted);border:1px solid var(--hair-2);border-radius:999px;width:max-content}
+  .ogc .pill .dot{border-radius:50%;background:var(--teal)}
+  .ogc .pill b{color:var(--coral);font-weight:500}
+  .ogc .birds{position:absolute;z-index:4;pointer-events:none}
+  .ogc .ocean{z-index:2}
+
+  /* ---------- EMBEDS ---------- */
+  .embeds{display:grid;gap:26px;grid-template-columns:1fr}
+  @media(min-width:880px){.embeds{grid-template-columns:1fr 1fr}}
+  .embed{background:var(--card-bg);border:1px solid var(--hair);border-radius:16px;padding:20px;overflow:hidden}
+  .embed > .lab{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-2);margin:0 0 14px;display:flex;align-items:center;gap:8px}
+  .embed > .lab .ico{width:15px;height:15px;opacity:.8}
+
+  /* X / Twitter */
+  .x-card{background:#000;border:1px solid #2f3336;border-radius:16px;overflow:hidden;max-width:440px;font-family:-apple-system,Segoe UI,Roboto,sans-serif}
+  .x-card .img{width:100%}
+  .x-card .ft{padding:11px 14px}
+  .x-card .ft .dom{color:#71767b;font-size:13px}
+  .x-card .ft .ttl{color:#e7e9ea;font-size:15px;margin:2px 0 3px;line-height:1.3}
+  .x-card .ft .ds{color:#71767b;font-size:14px;line-height:1.3}
+
+  /* Slack-style unfurl */
+  .slack{max-width:460px;font-family:Lato,-apple-system,Segoe UI,Roboto,sans-serif;display:flex;gap:10px}
+  .slack .bar{width:4px;border-radius:8px;background:#1d9bd1;flex:none}
+  .slack .body{flex:1}
+  .slack .site{display:flex;align-items:center;gap:7px;margin-bottom:4px}
+  .slack .site img{width:16px;height:16px;border-radius:3px}
+  .slack .site b{color:#d1d2d3;font-size:13px;font-weight:700}
+  .slack .ttl{color:#1d9bd1;font-size:15px;font-weight:700;margin-bottom:3px}
+  .slack .ds{color:#abadb0;font-size:14px;line-height:1.4;margin-bottom:10px}
+  .slack .img{border-radius:8px;overflow:hidden;max-width:100%}
+
+  /* iMessage bubble */
+  .imsg{max-width:300px}
+  .imsg .bubble{background:#262629;border-radius:18px;overflow:hidden;border:1px solid #34343a}
+  .imsg .img{width:100%}
+  .imsg .ft{padding:9px 13px}
+  .imsg .ft .ttl{color:#f2f2f7;font-size:13px;font-weight:600;line-height:1.25}
+  .imsg .ft .ds{color:#8e8e93;font-size:12px;margin-top:2px;line-height:1.25}
+  .imsg .ft .dom{color:#8e8e93;font-size:11px;margin-top:4px}
+
+  /* Facebook / LinkedIn */
+  .fb{max-width:460px;background:#fff;border:1px solid #dadde1;border-radius:8px;overflow:hidden;font-family:Helvetica,Arial,sans-serif}
+  .fb .img{width:100%;border-bottom:1px solid #dadde1}
+  .fb .ft{padding:10px 12px;background:#f2f3f5}
+  .fb .ft .dom{color:#606770;font-size:12px;text-transform:uppercase;letter-spacing:.02em}
+  .fb .ft .ttl{color:#1d2129;font-size:16px;font-weight:700;margin:3px 0;line-height:1.25}
+  .fb .ft .ds{color:#606770;font-size:14px;line-height:1.3}
+
+  /* Google SERP */
+  .serp{max-width:600px;background:#0a1628;border:1px solid var(--hair);border-radius:12px;padding:18px 20px;font-family:Arial,sans-serif}
+  .serp .line1{display:flex;align-items:center;gap:11px;margin-bottom:4px}
+  .serp .favtile{width:26px;height:26px;border-radius:50%;background:#1b2a3f;display:flex;align-items:center;justify-content:center;flex:none}
+  .serp .favtile svg{width:18px;height:18px;border-radius:4px}
+  .serp .u .site{color:#dfe3e6;font-size:14px;line-height:1.1}
+  .serp .u .url{color:#9aa9b8;font-size:12px;line-height:1.2}
+  .serp .ttl{color:#8ab4f8;font-size:20px;line-height:1.3;margin:6px 0 3px;font-weight:400}
+  .serp .ds{color:#bdc6cf;font-size:14px;line-height:1.45}
+  .serp .ds .date{color:#9aa9b8}
+
+  /* device home screens */
+  .devices{display:flex;gap:30px;flex-wrap:wrap;align-items:flex-start}
+  .device{text-align:center}
+  .device .lab{font-family:var(--mono);font-size:10.5px;color:var(--muted-2);margin-top:12px;letter-spacing:.04em}
+  .ios-ic{width:74px;height:74px;border-radius:17px;overflow:hidden;box-shadow:0 10px 24px -8px rgba(0,0,0,.6)}
+  .ios-ic svg{width:100%;height:100%;display:block}
+  .ios-label{font-size:11px;color:#fff;margin-top:6px;font-family:-apple-system,sans-serif;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+  .android-ic{width:74px;height:74px;border-radius:50%;overflow:hidden;box-shadow:0 10px 24px -8px rgba(0,0,0,.6)}
+  .android-ic svg{width:122%;height:122%;margin:-11%;display:block}
+  .ios-home{background:linear-gradient(160deg,#27496d,#0f2238);padding:22px;border-radius:24px}
+
+  /* recommendations */
+  .recs{display:grid;gap:14px;counter-reset:r}
+  .rec{display:grid;grid-template-columns:auto 1fr;gap:16px;background:var(--card-bg);border:1px solid var(--hair);border-radius:14px;padding:18px 22px}
+  .rec::before{counter-increment:r;content:counter(r);font-family:var(--sans);font-weight:700;font-size:20px;color:var(--teal);width:34px;height:34px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(25,194,194,.4);border-radius:10px;background:rgba(25,194,194,.08)}
+  .rec h3{font-family:var(--sans);font-weight:600;font-size:17px;margin:4px 0 6px}
+  .rec p{margin:0;font-size:15px;line-height:1.6;color:var(--muted)}
+  .rec p code{font-family:var(--mono);font-size:12.5px;background:#0a1628;border:1px solid var(--hair);padding:2px 6px;border-radius:5px;color:var(--foam)}
+  .note{font-family:var(--mono);font-size:12px;color:var(--muted-2);margin-top:30px;line-height:1.7;border-top:1px dashed var(--hair);padding-top:20px}
+</style>
+</head>
+<body>
+
+<div class="st-top">
+  <div class="row">
+    <div class="mark">fleet<span>surf</span> · marketing studio</div>
+    <nav class="st-nav">
+      <a href="#audit">Audit</a>
+      <a href="#tokens">Tokens</a>
+      <a href="#favicons">Favicons</a>
+      <a href="#cards">Share cards</a>
+      <a href="#embeds">Embeds</a>
+      <a href="#next">Next steps</a>
+    </nav>
+  </div>
+</div>
+
+<header class="st-hero">
+  <div class="st-wrap">
+    <p class="st-eyebrow">internal · not deployed</p>
+    <h1>Marketing asset <span class="ac">audit & redesign</span> studio</h1>
+    <p>A single place to judge what ships in link previews, browser tabs, and home screens — and to compare favicon and share-card directions side by side, in their real sizes and real social embeds. Built on the live brand tokens, with the actual mascot and ocean engines, so every mock here is what production would render.</p>
+  </div>
+</header>
+
+<!-- ============================ AUDIT ============================ -->
+<section class="st" id="audit">
+  <div class="st-wrap">
+    <h2 class="st-h"><span class="num">01</span>What's working & what's not</h2>
+    <p class="st-sub">The system underneath is strong: a coherent palette, a charming mascot, real motion. The marketing surface has a few specific cracks — most of them <em>consistency</em> problems where the same brand shows two different faces depending on where it's seen.</p>
+
+    <div class="findings">
+
+      <div class="finding">
+        <div class="sev crit">Critical</div>
+        <div>
+          <h3>The SVG favicon and the PNG favicons are two different logos</h3>
+          <p><code>favicon.svg</code> (used by Chrome, Firefox, Edge) draws an angular, blocky <b>F</b> with a teal block. Every PNG — Safari, the .ico fallback, all app icons — draws a soft, rounded lowercase <b>f</b> with a teal tab and an ocean wave. So the icon literally changes shape depending on the browser.</p>
+          <p class="fix fix"><b>Fix:</b> Pick one mark and regenerate <em>every</em> size from a single master SVG. <code>safari-pinned-tab.svg</code> carries the old angular F too — it needs the same update.</p>
+          <div class="ev">
+            <figure><img src="favicon.svg" width="64" height="64" alt="favicon.svg"><figcaption>favicon.svg → modern browsers</figcaption></figure>
+            <div class="vs">≠</div>
+            <figure><img src="favicon-48.png" width="64" height="64" alt="favicon-48.png"><figcaption>favicon-48.png → Safari / fallback</figcaption></figure>
+            <div class="vs">≠</div>
+            <figure><img src="safari-pinned-tab.svg" width="64" height="64" style="background:#0a1628;padding:8px" alt="pinned tab"><figcaption>safari-pinned-tab.svg</figcaption></figure>
+          </div>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="sev crit">Critical</div>
+        <div>
+          <h3>Two brand identities fight on the share cards</h3>
+          <p>The landscape card (<code>og-card.png</code>) stars the bird mascot. The square card (<code>og-card-square.png</code>) stars the “f” monogram. A person who sees the link on Twitter and then on iMessage sees what looks like two different products.</p>
+          <p class="fix"><b>Fix:</b> Decide the hierarchy — recommendation: <b>the “f” is the icon/avatar</b> (tabs, app tiles, SERP), <b>the bird is the storyteller</b> (hero, share cards, illustrations). Then make the cards agree.</p>
+          <div class="ev">
+            <figure><img src="og-card.png" width="220" height="115" alt="og landscape"><figcaption>og-card.png — bird</figcaption></figure>
+            <figure><img src="og-card-square.png" width="115" height="115" alt="og square"><figcaption>og-card-square.png — monogram</figcaption></figure>
+          </div>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="sev warn">Warning</div>
+        <div>
+          <h3>The favicon doesn't survive 16px</h3>
+          <p>At tab size the rounded “f”, the teal tab, and the bottom wave all compete in ~16 pixels and collapse into a teal-and-cream blob. The wave detail and the crossbar tab — the things that make it specific — are the first to disappear.</p>
+          <p class="fix"><b>Fix:</b> A favicon needs one idea that reads at 16px. Drop the in-tile wave, let the letter fill more of the tile, keep a single brand-teal accent. See the lab below for legible directions.</p>
+          <div class="ev">
+            <figure><img src="favicon-16.png" width="16" height="16" style="image-rendering:pixelated" alt="16"><figcaption>16px actual</figcaption></figure>
+            <figure><img src="favicon-16.png" width="48" height="48" style="image-rendering:pixelated" alt="16 zoom"><figcaption>16px enlarged 3×</figcaption></figure>
+            <figure><img src="favicon-32.png" width="32" height="32" style="image-rendering:pixelated" alt="32"><figcaption>32px actual</figcaption></figure>
+          </div>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="sev warn">Warning</div>
+        <div>
+          <h3>The landscape card breaks its own “no hard edges” rule</h3>
+          <p>The site is built as “one continuous sea, no hard edges anywhere” (your own note in <code>web2.css</code>). But the OG card drops the bird into a detached dark rounded panel on the right — it reads as pasted-in, the grid is heavy, and the wave is a thin sliver. It doesn't feel like the site it links to.</p>
+          <p class="fix"><b>Fix:</b> Let the bird ride the same ocean as the page. Card concept A below rebuilds it as a single blended scene.</p>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="sev warn">Warning</div>
+        <div>
+          <h3>Three different taglines across the marketing surface</h3>
+          <p>The headline promise changes depending on where you look. Pick one primary line and let everything echo it.</p>
+          <div class="taglines">
+            <div class="tl"><code>meta description</code><span>“Fleetsurf is the open agent-to-agent protocol for connecting the AI agents, tools, and fleets you already use.”</span></div>
+            <div class="tl"><code>og:description</code><span>“Connect the agent you like to every agent you can run.”</span></div>
+            <div class="tl"><code>og-card.png</code><span>“Open routing for AI agents, tools, and fleets.”</span></div>
+            <div class="tl"><code>og-card-square</code><span>“The open agent-to-agent protocol.”</span></div>
+            <div class="tl"><code>hero (h1 tag)</code><span>“Connect the agent you like to every agent you can run.”</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="finding">
+        <div class="sev polish">Polish</div>
+        <div>
+          <h3>Metadata gaps & small inconsistencies</h3>
+          <p>• No <code>twitter:site</code> / <code>twitter:creator</code> handle — the X card shows no attribution byline.<br>
+          • Both <code>theme-color</code> entries are identical (<code>#0a1628</code> for light <em>and</em> dark) — the media queries are redundant; collapse to one.<br>
+          • The schema.org <code>logo</code> points at <code>android-chrome-512</code> (a full-bleed app icon). Google prefers a clean, padded square logo — worth a dedicated asset.<br>
+          • The square card is tagged <code>1200×1200</code> as a secondary <code>og:image</code>; good, but make sure it carries the same mark as the primary one (see finding 02).</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================ TOKENS ============================ -->
+<section class="st" id="tokens">
+  <div class="st-wrap">
+    <h2 class="st-h"><span class="num">02</span>Brand tokens (the guardrails)</h2>
+    <p class="st-sub">Everything in this studio is built from these. Any redesign should stay inside them so the marketing surface and the product feel like one thing.</p>
+    <div class="swatches" id="swatches"></div>
+    <div class="typespec">
+      <div class="t"><small>Display — Space Grotesk</small><div style="font-family:var(--sans);font-weight:700;font-size:38px;letter-spacing:-.03em;line-height:1.1">Connect every agent you can run.</div></div>
+      <div class="t"><small>Body — Manrope</small><div style="font-family:var(--body);font-size:19px;color:var(--muted);line-height:1.5">The open agent-to-agent protocol for connecting the AI agents, tools, and fleets you already use.</div></div>
+      <div class="t"><small>Mono — JetBrains Mono</small><div style="font-family:var(--mono);font-size:16px;color:var(--teal);letter-spacing:.04em">any agent &lt;&gt; fleet of agents</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ FAVICON LAB ============================ -->
+<section class="st" id="favicons">
+  <div class="st-wrap">
+    <h2 class="st-h"><span class="num">03</span>Favicon lab</h2>
+    <p class="st-sub">Five directions, each rendered from one inline SVG and stamped at the sizes that actually matter. Judge them at <b>16px first</b> — if it doesn't read there, it doesn't work. The dashed rings on the app tile show Android's maskable safe zone.</p>
+    <div class="legend">
+      <span><b>16 / 32 / 48 / 64</b> — favicon sizes (actual px)</span>
+      <span><b>96</b> — rounded app tile</span>
+      <span><b>mask</b> — single-color (Safari pinned tab)</span>
+    </div>
+    <div class="fav-grid" id="favGrid"></div>
+  </div>
+</section>
+
+<!-- ============================ SHARE CARDS ============================ -->
+<section class="st" id="cards">
+  <div class="st-wrap">
+    <h2 class="st-h"><span class="num">04</span>Share-card redesigns</h2>
+    <p class="st-sub">Rebuilt as live, scalable scenes using the real mascot and ocean engines — no detached panels, one consistent mark, one tagline. The choice you make here feeds the embeds in the next section.</p>
+
+    <div class="seg" id="cardSeg">
+      <button data-c="open" class="on">Concept A · Open sea</button>
+      <button data-c="fleet">Concept B · The fleet</button>
+    </div>
+
+    <div class="cards-rail two">
+      <div class="cardblock">
+        <h4>Landscape — Open Graph / Twitter</h4>
+        <p class="meta">1200 × 630 · used by X, Facebook, LinkedIn, Slack, iMessage</p>
+        <div class="ogframe" data-w="1200" data-h="630" data-card="landscape"></div>
+      </div>
+      <div class="cardblock">
+        <h4>Square — secondary</h4>
+        <p class="meta">1200 × 1200 · used where square crops win (some chat apps, IG)</p>
+        <div class="ogframe" data-w="1200" data-h="1200" data-card="square"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ EMBEDS ============================ -->
+<section class="st" id="embeds">
+  <div class="st-wrap">
+    <h2 class="st-h"><span class="num">05</span>How it shows up in the wild</h2>
+    <p class="st-sub">The selected landscape concept, dropped into the real previews people will actually see. Use this to sanity-check crop, contrast, and how the title + description read alongside the image.</p>
+
+    <div class="embeds">
+
+      <div class="embed">
+        <p class="lab"><svg class="ico" viewBox="0 0 24 24" fill="#fff"><path d="M18.9 1.2h3.7l-8 9.2 9.5 12.5h-7.4l-5.8-7.6-6.6 7.6H.5l8.6-9.8L0 1.2h7.6l5.2 6.9 6.1-6.9Zm-1.3 19.5h2L6.5 3.3H4.3l13.3 17.4Z"/></svg> X / Twitter — summary_large_image</p>
+        <div class="x-card">
+          <div class="img ogframe" data-w="1200" data-h="630" data-card="embed"></div>
+          <div class="ft">
+            <div class="dom">fleetsurf.ai</div>
+            <div class="ttl">Fleetsurf — open agent-to-agent protocol</div>
+            <div class="ds">Connect the agent you like to every agent you can run.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="embed">
+        <p class="lab">💬 Slack / Discord — link unfurl</p>
+        <div class="slack">
+          <div class="bar"></div>
+          <div class="body">
+            <div class="site"><img src="favicon.svg" alt=""><b>Fleetsurf</b></div>
+            <div class="ttl">Fleetsurf — open agent-to-agent protocol</div>
+            <div class="ds">Connect the agent you like to every agent you can run.</div>
+            <div class="img ogframe" data-w="1200" data-h="630" data-card="embed"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="embed">
+        <p class="lab"> iMessage — rich link</p>
+        <div class="imsg">
+          <div class="bubble">
+            <div class="img ogframe" data-w="1200" data-h="630" data-card="embed"></div>
+            <div class="ft">
+              <div class="ttl">Fleetsurf — open agent-to-agent protocol</div>
+              <div class="dom">FLEETSURF.AI</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="embed">
+        <p class="lab">👍 Facebook / LinkedIn</p>
+        <div class="fb">
+          <div class="img ogframe" data-w="1200" data-h="630" data-card="embed"></div>
+          <div class="ft">
+            <div class="dom">fleetsurf.ai</div>
+            <div class="ttl">Fleetsurf — open agent-to-agent protocol</div>
+            <div class="ds">Connect the agent you like to every agent you can run.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="embed" style="grid-column:1/-1">
+        <p class="lab">🔍 Google search result</p>
+        <div class="serp">
+          <div class="line1">
+            <div class="favtile"><img src="favicon.svg" width="18" height="18" alt=""></div>
+            <div class="u">
+              <div class="site">Fleetsurf</div>
+              <div class="url">https://fleetsurf.ai</div>
+            </div>
+          </div>
+          <div class="ttl">Fleetsurf — open agent-to-agent protocol</div>
+          <div class="ds"><span class="date">Jun 21, 2026 — </span>Fleetsurf is the open agent-to-agent protocol for connecting the AI agents, tools, and fleets you already use.</div>
+        </div>
+      </div>
+
+      <div class="embed" style="grid-column:1/-1">
+        <p class="lab">📱 Home screens & docks — the “f” as icon</p>
+        <div class="devices" id="deviceRow"></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================ NEXT ============================ -->
+<section class="st" id="next" style="border-bottom:none">
+  <div class="st-wrap">
+    <h2 class="st-h"><span class="num">06</span>Where to take it</h2>
+    <p class="st-sub">A concrete path from “pick a direction” to shipped assets.</p>
+    <div class="recs">
+      <div class="rec"><div><h3>Lock the mark split</h3><p>Confirm the recommendation: <b>“f” monogram = icon</b> (favicon, app tiles, avatar, SERP), <b>bird = illustration</b> (hero, share cards). Everything downstream depends on this one call.</p></div></div>
+      <div class="rec"><div><h3>Choose one favicon direction</h3><p>From the lab, pick a winner. My pick is flagged <b>Recommended</b> — it's the cleanest read at 16px while keeping the teal accent and rounded character of Space Grotesk.</p></div></div>
+      <div class="rec"><div><h3>Regenerate the whole icon set from one master SVG</h3><p>One source → <code>favicon.svg</code>, <code>favicon-16/32/48</code>, <code>favicon.ico</code>, <code>apple-touch-icon</code> (180, with padding), <code>android-chrome-192/512</code>, <code>maskable-512</code> (safe-zone padded), <code>mstile-150</code>, and a monochrome <code>safari-pinned-tab.svg</code>. No more drift between formats.</p></div></div>
+      <div class="rec"><div><h3>Rebuild both share cards from the chosen concept</h3><p>Regenerate <code>og-card.png</code> (1200×630) and <code>og-card-square.png</code> (1200×1200) so they carry the same mark and the same one tagline. Add a clean padded <code>logo.png</code> for schema.org.</p></div></div>
+      <div class="rec"><div><h3>Tidy the metadata</h3><p>Add <code>twitter:site</code>/<code>twitter:creator</code>, collapse the duplicate <code>theme-color</code>, point schema.org <code>logo</code> at the new padded logo, and bump the <code>?v=</code> cache token so previews refresh.</p></div></div>
+    </div>
+    <p class="note">⚙️ Production rendering: this machine has no <code>sharp</code> / ImageMagick / rsvg installed, so the final PNGs aren't auto-generated yet. Once you pick directions, I can wire a tiny render script (headless-Chrome screenshot of these exact SVG/HTML scenes, or <code>npx @resvg/resvg-js</code>) to emit every size deterministically. This page stays as the living source of truth.<br><br>
+    This file is <code>public/marketing-preview.html</code>, excluded from deploy in <code>.github/workflows/deploy.yml</code> — it will not ship to fleetsurf.ai.</p>
+  </div>
+</section>
+
+<script src="mascot.js"></script>
+<script src="ocean.js"></script>
+<script>
+/* ============================================================
+   Studio runtime: tokens, favicon concepts, share cards, embeds
+   ============================================================ */
+const TOK = {navy:'#0a1628','navy-2':'#0c1d33','navy-3':'#102744',ink:'#eaf6f6',muted:'#8aa6bc',teal:'#19c2c2','teal-deep':'#0f8f8f',coral:'#ff7a59',gold:'#ffd166',foam:'#bdfcfc',violet:'#a78bfa'};
+
+/* ---- tokens swatches ---- */
+(function(){
+  const order=['navy','navy-2','navy-3','teal','teal-deep','foam','ink','muted','coral','gold','violet'];
+  const dark=new Set(['ink','foam','gold','teal','coral']);
+  document.getElementById('swatches').innerHTML = order.map(k=>{
+    const c=TOK[k]; const txt = dark.has(k)?'#0a1628':'#eaf6f6';
+    return `<div class="sw"><div class="chip" style="background:${c}"></div><div class="meta"><b>${k}</b><code>${c}</code></div></div>`;
+  }).join('');
+})();
+
+/* ============================================================
+   FAVICON CONCEPTS — each returns the *marks* drawn in a 64×64 box.
+   tile(bg) wraps them with the brand navy gradient + radius.
+   ============================================================ */
+const NAVY_GRAD = `<defs><linearGradient id="GID-bg" x1="8" y1="5" x2="56" y2="60" gradientUnits="userSpaceOnUse"><stop stop-color="#102744"/><stop offset=".56" stop-color="#0a1628"/><stop offset="1" stop-color="#05080f"/></linearGradient><linearGradient id="GID-tl" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse"><stop stop-color="#19c2c2"/><stop offset="1" stop-color="#0f8f8f"/></linearGradient></defs>`;
+
+// the rounded lowercase f used by several concepts (stroke geometry → scales + reads small)
+function fStem(stroke,w){return `<path d="M41.5 16.5 q-12.5 0 -12.5 12.5 V51" fill="none" stroke="${stroke}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>`;}
+
+const CONCEPTS = [
+  {
+    id:'clean-f', name:'Clean f', tag:'Recommended', rec:true,
+    desc:'The current mark, disciplined. The ocean leaves the tile, the letter grows to fill it, and a single teal crossbar carries the brand colour. Reads cleanly all the way down to 16px.',
+    // marks for a given context: ctx.mono = single color
+    marks:(mono)=> mono
+      ? `${fStem(mono,11)}<line x1="19" y1="30" x2="44" y2="30" stroke="${mono}" stroke-width="11" stroke-linecap="round"/>`
+      : `${fStem('#eaf6f6',11)}<line x1="19" y1="30" x2="44" y2="30" stroke="#19c2c2" stroke-width="11" stroke-linecap="round"/>`
+  },
+  {
+    id:'wave-f', name:'Wave-bar f', tag:null,
+    desc:'Same letter, but the crossbar becomes a small teal swell — the surf story folded into the glyph. A touch more character; at 16px the wave reads as a confident bar.',
+    marks:(mono)=> mono
+      ? `${fStem(mono,11)}<path d="M18 31 q6.5 -8 13 0 t13 0" fill="none" stroke="${mono}" stroke-width="8" stroke-linecap="round"/>`
+      : `${fStem('#eaf6f6',11)}<path d="M18 31 q6.5 -8 13 0 t13 0" fill="none" stroke="#19c2c2" stroke-width="8" stroke-linecap="round"/>`
+  },
+  {
+    id:'tile-knockout', name:'Teal tile, knockout f', tag:null,
+    desc:'Inverted for maximum punch: a solid teal tile with the f knocked out. Highest contrast in a crowded tab strip, and it doubles as a light-surface lockup.',
+    fullTile:true,
+    marks:(mono)=> mono
+      ? `<rect width="64" height="64" rx="15" fill="${mono}"/>` // mask: solid shape
+      : `<rect width="64" height="64" rx="15" fill="url(#GID-tl)"/>${fStem('#06222a',11)}<line x1="19" y1="30" x2="44" y2="30" stroke="#06222a" stroke-width="11" stroke-linecap="round"/>`
+  },
+  {
+    id:'surf-curl', name:'Surf curl', tag:'Letterless',
+    desc:'Drops the letter for a bold breaking-wave curl — instantly an ocean brand, unmistakable at any size. Strongest pure-icon, but loses the “f” so it only works if the wordmark always rides alongside.',
+    marks:(mono)=>{
+      const c = mono||'#19c2c2'; const f = mono||'#bdfcfc';
+      return `<path d="M12 44 q6 -22 26 -22 q16 0 19 14 q2 9 -7 11 q-8 1 -9 -6 q-1 -6 5 -6" fill="none" stroke="${c}" stroke-width="8.5" stroke-linecap="round" stroke-linejoin="round"/>`+
+             (mono?'':`<path d="M12 50 q12 5 24 0" fill="none" stroke="${f}" stroke-width="4" stroke-linecap="round" opacity=".7"/>`);
+    }
+  },
+  {
+    id:'bird-head', name:'Surfy head', tag:'Mascot',
+    desc:'The mascot distilled to a head-and-beak icon. Warm and ownable if you want the bird everywhere — but it’s the riskiest read at 16px, so weigh it against the monogram for tabs.',
+    marks:(mono)=>{
+      if(mono) return `<circle cx="30" cy="30" r="17" fill="${mono}"/><path d="M44 28 l11 4 l-10 5 z" fill="${mono}"/>`;
+      return `<circle cx="31" cy="32" r="18" fill="#19c2c2"/><path d="M30 14 v-6 M37 15 l4 -5 M23 15 l-4 -5" stroke="#ff7a59" stroke-width="3" stroke-linecap="round"/>`+
+             `<path d="M46 29 l12 4 l-11 5 z" fill="#ff7a59"/>`+
+             `<circle cx="38" cy="28" r="5.5" fill="#fff"/><circle cx="40" cy="29" r="3" fill="#0a1628"/><circle cx="41" cy="27.5" r="1" fill="#fff"/>`+
+             `<path d="M14 46 q9 4 18 0" fill="none" stroke="#bdfcfc" stroke-width="3" stroke-linecap="round" opacity=".6"/>`;
+    }
+  }
+];
+
+let GID=0;
+function svgIcon(concept, size, opts={}){
+  opts = opts||{};
+  GID++; const ns='g'+GID;
+  const defs = NAVY_GRAD.replace(/GID/g,ns);
+  let inner = concept.marks(opts.mono);
+  // place a brand-navy tile behind unless the concept paints its own full tile, or we're masking
+  let tile='';
+  if(!opts.mono && !concept.fullTile){
+    tile = `<rect width="64" height="64" rx="${opts.square?15:15}" fill="url(#${ns}-bg)"/>`;
+  }
+  if(opts.mono){
+    // monochrome: just the marks in one color, transparent bg
+    return `<svg viewBox="0 0 64 64" width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg">${inner.replace(/GID/g,ns)}</svg>`;
+  }
+  inner = inner.replace(/GID/g,ns);
+  const r = opts.radius!=null?opts.radius:15;
+  // clip everything to the rounded tile so knockout/curl never bleed
+  return `<svg viewBox="0 0 64 64" width="${size}" height="${size}" xmlns="http://www.w3.org/2000/svg">
+    ${defs}
+    <clipPath id="${ns}-clip"><rect width="64" height="64" rx="${r}"/></clipPath>
+    <g clip-path="url(#${ns}-clip)">${tile}${inner}</g>
+  </svg>`;
+}
+
+/* ---- render the lab ---- */
+(function(){
+  const grid = document.getElementById('favGrid');
+  grid.innerHTML = CONCEPTS.map((c,i)=>{
+    const sizes=[16,32,48,64];
+    const navyCells = sizes.map(s=>`<div class="cell"><span class="icon-box">${svgIcon(c,s)}</span><div class="lab">${s}px</div></div>`).join('');
+    const tab = `<div class="cell"><div class="tabmock"><span class="fv icon-box">${svgIcon(c,16)}</span><span class="ti">Fleetsurf — open agent…</span><span class="x">×</span></div><div class="lab">browser tab</div></div>`;
+    const lightCell = `<div class="cell"><span class="icon-box">${svgIcon(c,32)}</span><div class="lab">32px</div></div>`;
+    const appTile = `<div class="cell"><div class="maskwrap"><span class="icon-box">${svgIcon(c,96,{radius:22})}</span><span class="safe"></span></div><div class="lab">app tile · safe-zone</div></div>`;
+    const mono = `<div class="cell"><span class="icon-box">${svgIcon(c,40,{mono:'#9fe9e9'})}</span><div class="lab">mask</div></div>`;
+    return `<div class="fav${c.rec?' rec':''}">
+      <div class="top"><h3>${c.name}</h3>${c.tag?`<span class="tag">${c.tag}</span>`:''}</div>
+      <p class="desc">${c.desc}</p>
+      <div class="row">
+        <div class="grp navy">${navyCells}</div>
+        <div class="grp">${appTile}</div>
+        <div class="grp light">${lightCell}</div>
+        <div class="grp tab">${tab}</div>
+        <div class="grp navy">${mono}</div>
+      </div>
+    </div>`;
+  }).join('');
+})();
+
+/* ============================================================
+   SHARE CARDS — live scenes at true size, scaled to fit.
+   ============================================================ */
+function birdSVG(opts){ return window.fleetMascot ? window.fleetMascot(opts) : ''; }
+
+// landscape 1200x630
+function landscapeHTML(concept){
+  const headline = concept==='fleet'
+    ? `No agent surfs <span class="ac">alone.</span>`
+    : `Connect every agent<br><span class="ac">you can run.</span>`;
+  const birds = concept==='fleet'
+    ? `<div class="birds" style="right:0;bottom:60px;width:560px;height:430px">
+         <div style="position:absolute;right:18px;bottom:34px">${birdSVG({size:240,wave:false,acc:'heli'})}</div>
+         <div style="position:absolute;right:250px;bottom:96px">${birdSVG({size:150,wave:false,body:'#ffd166',belly:'#fff3cf',board:'#ff7a59',boardDark:'#e05a3a',beak:'#19c2c2',bodyDark:'#e3b43f'})}</div>
+         <div style="position:absolute;right:360px;bottom:20px">${birdSVG({size:140,wave:false,acc:'antenna',body:'#ff7a59',belly:'#ffd9cc',board:'#19c2c2',boardDark:'#0f8f8f',beak:'#ffd166',bodyDark:'#e05a3a'})}</div>
+         <div style="position:absolute;right:150px;bottom:8px">${birdSVG({size:120,wave:false,acc:'goggles'})}</div>
+       </div>`
+    : `<div class="birds" style="right:36px;bottom:74px;width:430px;height:430px">
+         <div style="position:absolute;right:0;bottom:0">${birdSVG({size:330,wave:false,acc:'flag',flag:'#19c2c2'})}</div>
+         <div style="position:absolute;right:300px;bottom:18px">${birdSVG({size:128,wave:false,acc:'goggles'})}</div>
+       </div>`;
+  return `<div class="ogc">
+    <div class="grid" style="background-size:60px 60px"></div>
+    ${birds}
+    <div class="ocean" data-h="200" data-colors="#0a3a4a,#0b5566,#0f8f8f,#19c2c2"></div>
+    <div class="pad" style="padding:0 0 0 80px;max-width:800px">
+      <div class="eyebrow" style="font-size:21px;letter-spacing:.18em;gap:14px;margin-bottom:26px">the agent-to-agent protocol</div>
+      <div class="wm" style="font-size:46px;margin-bottom:30px">fleet<span>surf</span></div>
+      <h2 style="font-size:63px;margin-bottom:30px">${headline}</h2>
+      <div class="pill" style="font-size:18px;letter-spacing:.1em;padding:13px 24px;gap:12px"><span class="dot" style="width:9px;height:9px"></span> any agent <b style="margin:0 2px">&lt;&gt;</b> fleet of agents</div>
+    </div>
+  </div>`;
+}
+// eyebrow ::before sizing needs inline since it's pseudo; add a width via style hook
+function landscapeStyleFix(root){
+  root.querySelectorAll('.eyebrow').forEach(e=>{ const b=document.createElement('style'); });
+}
+
+// square 1200x1200
+function squareHTML(concept){
+  return `<div class="ogc" style="background:radial-gradient(120% 80% at 50% 12%, rgba(15,143,143,.22), transparent 58%),linear-gradient(170deg,#0c2038,#0a1a2e 50%,#060f1c)">
+    <div class="grid" style="background-size:84px 84px"></div>
+    <div class="ocean" data-h="288" data-colors="#082c3a,#0a3a4a,#0b5566,#0f8f8f,#19c2c2"></div>
+    <div class="birds" style="left:50%;top:96px;transform:translateX(-50%);width:440px;height:420px;text-align:center">
+      ${birdSVG({size:352,wave:false,acc:'flag',flag:'#19c2c2'})}
+    </div>
+    <div class="pad" style="justify-content:flex-end;align-items:center;text-align:center;padding:0 96px 372px">
+      <div class="eyebrow" style="font-size:23px;letter-spacing:.18em;justify-content:center;margin-bottom:26px">the agent-to-agent protocol</div>
+      <div class="wm" style="font-size:62px;margin-bottom:26px">fleet<span>surf</span></div>
+      <h2 style="font-size:74px;max-width:15ch;text-align:center;line-height:1.04">Connect every agent <span class="ac">you can run.</span></h2>
+    </div>
+  </div>`;
+}
+
+let CURRENT='open';
+
+function buildCard(frame){
+  const kind = frame.dataset.card; // landscape | square | embed
+  const w=+frame.dataset.w, h=+frame.dataset.h;
+  const canvas=document.createElement('div');
+  canvas.className='ogcanvas';
+  canvas.style.width=w+'px'; canvas.style.height=h+'px';
+  if(kind==='square') canvas.innerHTML=squareHTML(CURRENT);
+  else canvas.innerHTML=landscapeHTML(CURRENT);
+  frame.innerHTML=''; frame.appendChild(canvas);
+}
+
+function buildAll(){
+  document.querySelectorAll('.ogframe').forEach(buildCard);
+  if(window.fleetOcean) window.fleetOcean();
+  fitAll();
+}
+function fit(frame){
+  const w=+frame.dataset.w;
+  const s=frame.clientWidth / w;
+  const c=frame.querySelector('.ogcanvas');
+  if(!c) return;
+  c.style.transform='scale('+s+')';
+  frame.style.height=(frame.dataset.h*s)+'px';
+}
+function fitAll(){ document.querySelectorAll('.ogframe').forEach(fit); }
+
+// eyebrow pseudo-element width: inject a rule scaled to card type
+const eb=document.createElement('style');
+eb.textContent='.ogc .eyebrow::before{width:46px;height:2px;margin-right:14px}';
+document.head.appendChild(eb);
+
+/* concept switcher */
+document.getElementById('cardSeg').addEventListener('click',e=>{
+  const b=e.target.closest('button'); if(!b) return;
+  document.querySelectorAll('#cardSeg button').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on'); CURRENT=b.dataset.c; buildAll();
+});
+
+/* device home-screen icons (uses the recommended favicon concept) */
+(function(){
+  const rec = CONCEPTS.find(c=>c.rec)||CONCEPTS[0];
+  const row=document.getElementById('deviceRow');
+  row.innerHTML = `
+    <div class="device"><div class="ios-home"><div class="ios-ic">${svgIcon(rec,74,{radius:0})}</div><div class="ios-label">Fleetsurf</div></div><div class="lab">iOS home screen</div></div>
+    <div class="device"><div class="android-ic">${svgIcon(rec,74,{radius:0})}</div><div class="lab">Android (adaptive)</div></div>
+    <div class="device"><div class="ios-ic" style="border-radius:17px">${svgIcon(rec,74,{radius:0})}</div><div class="lab">macOS dock</div></div>
+    <div class="device"><div class="tabmock" style="border-radius:9px"><span class="fv icon-box">${svgIcon(rec,16)}</span><span class="ti">Fleetsurf</span></div><div class="lab">pinned tab</div></div>
+  `;
+})();
+
+window.addEventListener('resize', ()=>{ clearTimeout(window._rt); window._rt=setTimeout(fitAll,120); });
+buildAll();
+// re-fit after fonts settle
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(fitAll);
+setTimeout(fitAll, 400);
+</script>
+</body>
+</html>

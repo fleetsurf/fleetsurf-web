@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>OG card render stage</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#eaf6f6; --muted:#8aa6bc; --teal:#19c2c2; --coral:#ff7a59; --foam:#bdfcfc;
+    --hair:rgba(120,180,200,.14); --hair-2:rgba(120,180,200,.26);
+    --sans:'Space Grotesk',system-ui,sans-serif;
+    --body:'Manrope',system-ui,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box}
+  /* deterministic: no motion in a still export */
+  *,*::before,*::after{animation:none !important;transition:none !important}
+  html,body{margin:0;padding:0;background:#0a1628}
+  #stage{position:relative;overflow:hidden}
+
+  /* ---- ocean layout (ported from web2.css; motion stripped) ---- */
+  .ocean{position:absolute;left:0;right:0;bottom:0;width:100%;pointer-events:none;z-index:1;overflow:hidden}
+  .ocean .wv-floor{position:absolute;left:0;right:0;bottom:-2px;height:42%;z-index:0}
+  .ocean .wv-layer{position:absolute;left:0;right:0;bottom:0;height:100%}
+  .ocean .wv-bob{position:absolute;inset:0}
+  .ocean .wv-drift{position:absolute;left:0;bottom:0;width:200%;height:100%}
+  .ocean .wv-drift svg{position:absolute;left:0;bottom:0;width:100%;height:100%;display:block}
+
+  /* ---- card internals (ported from marketing-preview.html .ogc) ---- */
+  .ogc{position:absolute;inset:0;background:
+      radial-gradient(120% 90% at 80% 8%, rgba(15,143,143,.20), transparent 60%),
+      linear-gradient(168deg,#0c2038 0%,#0a1a2e 46%,#081626 72%,#060f1c 100%);
+      overflow:hidden;font-family:var(--body)}
+  .ogc .grid{position:absolute;inset:0;background-image:linear-gradient(var(--hair) 1px,transparent 1px),linear-gradient(90deg,var(--hair) 1px,transparent 1px);opacity:.5;
+      -webkit-mask-image:radial-gradient(ellipse 95% 80% at 42% 36%,#000 30%,transparent 96%);mask-image:radial-gradient(ellipse 95% 80% at 42% 36%,#000 30%,transparent 96%)}
+  .ogc .pad{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;justify-content:center}
+  .ogc .eyebrow{font-family:var(--mono);text-transform:uppercase;color:var(--teal);display:flex;align-items:center}
+  .ogc .eyebrow::before{content:"";background:var(--teal);display:inline-block;width:46px;height:2px;margin-right:14px}
+  .ogc .wm{font-family:var(--sans);font-weight:700;letter-spacing:-.03em;line-height:.9}
+  .ogc .wm span{color:var(--teal)}
+  .ogc h2{font-family:var(--sans);font-weight:600;letter-spacing:-.03em;line-height:1.0;margin:0;color:var(--ink)}
+  .ogc h2 .ac{color:var(--teal)}
+  .ogc .pill{display:inline-flex;align-items:center;gap:.6em;font-family:var(--mono);text-transform:uppercase;color:var(--muted);border:1px solid var(--hair-2);border-radius:999px;width:max-content}
+  .ogc .pill .dot{border-radius:50%;background:var(--teal)}
+  .ogc .pill b{color:var(--coral);font-weight:500}
+  .ogc .birds{position:absolute;z-index:4;pointer-events:none}
+  .ogc .ocean{z-index:2}
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<script src="../public/mascot.js"></script>
+<script src="../public/ocean.js"></script>
+<script>
+function q(name,def){const v=new URLSearchParams(location.search).get(name);return v==null?def:v;}
+const CARD=q('card','landscape'), W=+q('w',1200), H=+q('h',630);
+function bird(o){return window.fleetMascot?window.fleetMascot(o):'';}
+
+function landscapeHTML(){
+  return `<div class="ogc">
+    <div class="grid" style="background-size:60px 60px"></div>
+    <div class="birds" style="right:36px;bottom:74px;width:430px;height:430px">
+      <div style="position:absolute;right:0;bottom:0">${bird({size:330,wave:false,acc:'flag',flag:'#19c2c2'})}</div>
+      <div style="position:absolute;right:300px;bottom:18px">${bird({size:128,wave:false,acc:'goggles'})}</div>
+    </div>
+    <div class="ocean" data-h="200" data-colors="#0a3a4a,#0b5566,#0f8f8f,#19c2c2"></div>
+    <div class="pad" style="padding:0 0 0 80px;max-width:800px">
+      <div class="eyebrow" style="font-size:21px;letter-spacing:.18em;gap:14px;margin-bottom:26px">the agent-to-agent protocol</div>
+      <div class="wm" style="font-size:46px;margin-bottom:30px">fleet<span>surf</span></div>
+      <h2 style="font-size:63px;margin-bottom:30px">Connect every agent<br><span class="ac">you can run.</span></h2>
+      <div class="pill" style="font-size:18px;letter-spacing:.1em;padding:13px 24px;gap:12px"><span class="dot" style="width:9px;height:9px"></span> any agent <b style="margin:0 2px">&lt;&gt;</b> fleet of agents</div>
+    </div>
+  </div>`;
+}
+
+function squareHTML(){
+  return `<div class="ogc" style="background:radial-gradient(120% 80% at 50% 12%, rgba(15,143,143,.22), transparent 58%),linear-gradient(170deg,#0c2038,#0a1a2e 50%,#060f1c)">
+    <div class="grid" style="background-size:84px 84px"></div>
+    <div class="ocean" data-h="288" data-colors="#082c3a,#0a3a4a,#0b5566,#0f8f8f,#19c2c2"></div>
+    <div class="birds" style="left:50%;top:96px;transform:translateX(-50%);width:440px;height:420px;text-align:center">
+      ${bird({size:352,wave:false,acc:'flag',flag:'#19c2c2'})}
+    </div>
+    <div class="pad" style="justify-content:flex-end;align-items:center;text-align:center;padding:0 96px 372px">
+      <div class="eyebrow" style="font-size:23px;letter-spacing:.18em;justify-content:center;margin-bottom:26px">the agent-to-agent protocol</div>
+      <div class="wm" style="font-size:62px;margin-bottom:26px">fleet<span>surf</span></div>
+      <h2 style="font-size:74px;max-width:15ch;text-align:center;line-height:1.04">Connect every agent <span class="ac">you can run.</span></h2>
+    </div>
+  </div>`;
+}
+
+(async function(){
+  const stage=document.getElementById('stage');
+  stage.style.width=W+'px'; stage.style.height=H+'px';
+  stage.innerHTML = CARD==='square' ? squareHTML() : landscapeHTML();
+  if(window.fleetOcean) window.fleetOcean();
+  try{ if(document.fonts && document.fonts.ready) await document.fonts.ready; }catch(e){}
+  // give the SVG ocean/mascot a tick to paint
+  await new Promise(r=>setTimeout(r,150));
+  document.body.setAttribute('data-ready','1');
+})();
+</script>
+</body>
+</html>
