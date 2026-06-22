@@ -9,6 +9,7 @@
 //   android-chrome-192/512.png  full-bleed
 //   maskable-icon-512.png       full-bleed, logo inside the adaptive safe zone
 //   mstile-150x150.png          full-bleed (Windows tile colour set separately)
+//   logo.png                    512, padded brand tile for schema.org Organization
 //   safari-pinned-tab.svg       single-colour silhouette (Safari tints it)
 //
 // One mark, every size — no more drift between SVG and PNG.
@@ -86,6 +87,14 @@ const monoSVG = () => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 6
 ${head('#000000')}
 </svg>`;
 
+// schema.org Organization logo: rounded brand tile with extra padding around the
+// mark (Google renders this in knowledge panels / search).
+const logoSVG = () => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+${BG}
+<rect width="64" height="64" rx="14" fill="url(#bg)"/>
+<g transform="translate(32 34) scale(0.74) translate(-30 -33)">${head()}</g>
+</svg>`;
+
 const png = (svg, size) =>
   new Resvg(svg, { fitTo: { mode: 'width', value: size } }).render().asPng();
 
@@ -106,6 +115,9 @@ async function main() {
   writeFileSync(join(PUB, 'android-chrome-512x512.png'), png(full, 512));
   writeFileSync(join(PUB, 'mstile-150x150.png'), png(full, 150));
   writeFileSync(join(PUB, 'maskable-icon-512x512.png'), png(maskableSVG(), 512));
+
+  // schema.org Organization logo (padded square)
+  writeFileSync(join(PUB, 'logo.png'), png(logoSVG(), 512));
 
   // packed .ico (16 + 32 + 48)
   const ico = await pngToIco([png(tile, 16), png(tile, 32), png(tile, 48)]);
