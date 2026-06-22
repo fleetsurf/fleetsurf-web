@@ -22,6 +22,7 @@
 <link rel="stylesheet" href="fleetsurf-v2.css?v=20260621-wave-spread">
 <link rel="stylesheet" href="web.css?v=20260621-wave-spread">
 <link rel="stylesheet" href="web2.css?v=20260621-wave-spread">
+<link rel="stylesheet" href="surf-game.css?v=20260621-surf-game-proto">
 <!-- Critical hero fallback: keeps birds positioned if a browser pairs new HTML
      with stale cached CSS. It intentionally comes after the external styles and
      mirrors web2.css hero bird rules so stale assets cannot recreate the left pile. -->
@@ -244,6 +245,48 @@
   </div>
 </section>
 
+<!-- ============ SURF RUN PROTOTYPE ============ -->
+<section class="band surf-game-section" id="surf-run" data-screen-label="Surf run prototype">
+  <div class="grid-bg fade"></div>
+  <div class="glow" style="width:760px;height:760px;right:-8%;top:40%;background:#0f8f8f"></div>
+  <div class="wrap surf-game-head">
+    <p class="kick reveal">Prototype</p>
+    <h2 class="stmt reveal d1">Ride the <span class="accent">protocol swell</span>.</h2>
+    <p class="lead reveal d2" style="max-width:58ch">A tiny arcade pass at fleetsurf as a wave-surfing platformer: carve through moving swells, link up with friendly birds, and keep the sharks off your route.</p>
+  </div>
+  <div class="wrap surf-game-wrap reveal d2">
+    <div class="surf-game-shell" data-surf-game>
+      <div class="surf-game-topbar">
+        <div class="surf-game-stat">
+          <span>score</span>
+          <b data-surf-score>0</b>
+        </div>
+        <div class="surf-game-stat">
+          <span>crew</span>
+          <b data-surf-crew>3</b>
+        </div>
+        <div class="surf-game-stat">
+          <span>swell</span>
+          <b data-surf-swell>1x</b>
+        </div>
+        <div class="surf-game-actions">
+          <button type="button" class="surf-game-btn" data-surf-start>Start</button>
+          <button type="button" class="surf-game-btn ghost" data-surf-reset>Reset</button>
+        </div>
+      </div>
+      <div class="surf-game-canvas-wrap">
+        <canvas class="surf-game-canvas" data-surf-canvas width="1280" height="640" tabindex="0" aria-label="Fleetsurf wave surfing mini game" aria-describedby="surf-game-help"></canvas>
+        <p class="surf-game-sr-only" id="surf-game-help">Use arrow keys, WASD, or pointer movement to steer the bird along the wave. Space or up rides higher; down rides lower.</p>
+        <div class="surf-game-overlay" data-surf-overlay>
+          <div class="mascot-slot surf-game-mark bob" data-opts='{"size":150,"wave":false,"acc":"goggles"}'></div>
+          <button type="button" class="surf-game-play" data-surf-play>Surf</button>
+        </div>
+      </div>
+      <div class="surf-game-status" data-surf-status aria-live="polite">Ready</div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ CLOSE / FOOTER ============ -->
 <footer class="band" data-screen-label="Close">
   <div class="grid-bg fade"></div>
@@ -277,5 +320,6 @@
 <script src="web-reveal.js?v=20260621-wave-spread"></script>
 <script src="web-parallax.js?v=20260621-wave-spread"></script>
 <script src="ocean.js?v=20260621-wave-spread"></script>
+<script src="surf-game.js?v=20260621-surf-game-proto"></script>
 </body>
 </html>
