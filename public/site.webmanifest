@@ -9,19 +9,19 @@
   "theme_color": "#0a1628",
   "icons": [
     {
-      "src": "/android-chrome-192x192.png?v=20260621-brand",
+      "src": "/android-chrome-192x192.png?v=20260622-surfy",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/android-chrome-512x512.png?v=20260621-brand",
+      "src": "/android-chrome-512x512.png?v=20260622-surfy",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/maskable-icon-512x512.png?v=20260621-brand",
+      "src": "/maskable-icon-512x512.png?v=20260622-surfy",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"

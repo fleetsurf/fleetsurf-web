@@ -1,0 +1,15 @@
+{
+  "name": "fleetsurf-icon-tools",
+  "private": true,
+  "type": "module",
+  "description": "Regenerates the favicon/app-icon set and OG share cards from source. Not deployed.",
+  "scripts": {
+    "icons": "node render-icons.mjs",
+    "og": "node render-og.mjs"
+  },
+  "dependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "png-to-ico": "^2.1.8",
+    "puppeteer-core": "^23.11.1"
+  }
+}

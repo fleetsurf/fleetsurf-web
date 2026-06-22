@@ -45,8 +45,8 @@ jobs:
           # CSS/JS are excluded here and uploaded separately with a shorter,
           # must-revalidate policy so a future edit can't pair new index.html
           # with hour-old cached CSS/JS (the regression this repair addresses).
-          # Editor-only artifacts (image-slot.js, .image-slots.state.json) are
-          # never shipped to the live bucket.
+          # Editor-only artifacts (image-slot.js, .image-slots.state.json) and
+          # internal design tools (marketing-preview.html) are never shipped.
           aws s3 sync public/ "s3://${S3_BUCKET}/" \
             --delete \
             --exclude "index.html" \
@@ -54,6 +54,7 @@ jobs:
             --exclude "*.js" \
             --exclude "image-slot.js" \
             --exclude ".image-slots.state.json" \
+            --exclude "marketing-preview.html" \
             --cache-control "public,max-age=3600"
           # CSS/JS: short cache + must-revalidate. Combined with the ?v= query
           # tokens in index.html, returning visitors always get matching assets.
@@ -65,6 +66,7 @@ jobs:
             --cache-control "public,max-age=60,must-revalidate"
           aws s3 rm "s3://${S3_BUCKET}/image-slot.js" || true
           aws s3 rm "s3://${S3_BUCKET}/.image-slots.state.json" || true
+          aws s3 rm "s3://${S3_BUCKET}/marketing-preview.html" || true
           aws s3 cp public/index.html "s3://${S3_BUCKET}/index.html" \
             --cache-control "public,max-age=60,must-revalidate" \
             --content-type "text/html; charset=utf-8"
